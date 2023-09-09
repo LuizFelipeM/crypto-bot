@@ -5,13 +5,15 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoBot.Host", "CryptoBot.Host\CryptoBot.Host.csproj", "{9310325A-F079-4C81-8BD6-898419F09763}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoBot.Application", "CryptoBot.Application\CryptoBot.Application.csproj", "{2F10A2A4-31F7-4176-97CB-32BA276935DA}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoBot.CrossCutting", "CryptoBot.CrossCutting\CryptoBot.CrossCutting.csproj", "{2EAE5018-8922-4A15-BEAD-09946EE65BE2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoBot.Domain", "CryptoBot.Domain\CryptoBot.Domain.csproj", "{3F5C5567-78E9-48A4-A64F-4053E5A7CC6E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoBot.Infrastructure", "CryptoBot.Infrastructure\CryptoBot.Infrastructure.csproj", "{AA418C16-EE50-42BC-9A6B-274A12F121B2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CryptoBot.Application", "CryptoBot.Application", "{DF3CF71D-DB58-45F1-990C-FCC8F0D7788E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoBot.Application.Binance.Client", "CryptoBot.Application\CryptoBot.Application.Binance.Client\CryptoBot.Application.Binance.Client.csproj", "{71496DE3-FD80-4098-9D60-F8B1824C6CC5}"
 EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution
@@ -38,18 +40,6 @@ Global
 		{9310325A-F079-4C81-8BD6-898419F09763}.Release|x64.Build.0 = Release|Any CPU
 		{9310325A-F079-4C81-8BD6-898419F09763}.Release|x86.ActiveCfg = Release|Any CPU
 		{9310325A-F079-4C81-8BD6-898419F09763}.Release|x86.Build.0 = Release|Any CPU
-		{2F10A2A4-31F7-4176-97CB-32BA276935DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2F10A2A4-31F7-4176-97CB-32BA276935DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2F10A2A4-31F7-4176-97CB-32BA276935DA}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{2F10A2A4-31F7-4176-97CB-32BA276935DA}.Debug|x64.Build.0 = Debug|Any CPU
-		{2F10A2A4-31F7-4176-97CB-32BA276935DA}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{2F10A2A4-31F7-4176-97CB-32BA276935DA}.Debug|x86.Build.0 = Debug|Any CPU
-		{2F10A2A4-31F7-4176-97CB-32BA276935DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2F10A2A4-31F7-4176-97CB-32BA276935DA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2F10A2A4-31F7-4176-97CB-32BA276935DA}.Release|x64.ActiveCfg = Release|Any CPU
-		{2F10A2A4-31F7-4176-97CB-32BA276935DA}.Release|x64.Build.0 = Release|Any CPU
-		{2F10A2A4-31F7-4176-97CB-32BA276935DA}.Release|x86.ActiveCfg = Release|Any CPU
-		{2F10A2A4-31F7-4176-97CB-32BA276935DA}.Release|x86.Build.0 = Release|Any CPU
 		{2EAE5018-8922-4A15-BEAD-09946EE65BE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2EAE5018-8922-4A15-BEAD-09946EE65BE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2EAE5018-8922-4A15-BEAD-09946EE65BE2}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -86,5 +76,20 @@ Global
 		{AA418C16-EE50-42BC-9A6B-274A12F121B2}.Release|x64.Build.0 = Release|Any CPU
 		{AA418C16-EE50-42BC-9A6B-274A12F121B2}.Release|x86.ActiveCfg = Release|Any CPU
 		{AA418C16-EE50-42BC-9A6B-274A12F121B2}.Release|x86.Build.0 = Release|Any CPU
+		{71496DE3-FD80-4098-9D60-F8B1824C6CC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71496DE3-FD80-4098-9D60-F8B1824C6CC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71496DE3-FD80-4098-9D60-F8B1824C6CC5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{71496DE3-FD80-4098-9D60-F8B1824C6CC5}.Debug|x64.Build.0 = Debug|Any CPU
+		{71496DE3-FD80-4098-9D60-F8B1824C6CC5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{71496DE3-FD80-4098-9D60-F8B1824C6CC5}.Debug|x86.Build.0 = Debug|Any CPU
+		{71496DE3-FD80-4098-9D60-F8B1824C6CC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71496DE3-FD80-4098-9D60-F8B1824C6CC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71496DE3-FD80-4098-9D60-F8B1824C6CC5}.Release|x64.ActiveCfg = Release|Any CPU
+		{71496DE3-FD80-4098-9D60-F8B1824C6CC5}.Release|x64.Build.0 = Release|Any CPU
+		{71496DE3-FD80-4098-9D60-F8B1824C6CC5}.Release|x86.ActiveCfg = Release|Any CPU
+		{71496DE3-FD80-4098-9D60-F8B1824C6CC5}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{71496DE3-FD80-4098-9D60-F8B1824C6CC5} = {DF3CF71D-DB58-45F1-990C-FCC8F0D7788E}
 	EndGlobalSection
 EndGlobal
