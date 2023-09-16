@@ -1,0 +1,11 @@
+{
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "driver": "SQLite",
+      "name": "Live Market",
+      "database": "${workspaceFolder:crypto-bot}/CryptoBot.SQLite/LiveMarket.db"
+    }
+  ],
+  "sqltools.useNodeRuntime": true
+}
