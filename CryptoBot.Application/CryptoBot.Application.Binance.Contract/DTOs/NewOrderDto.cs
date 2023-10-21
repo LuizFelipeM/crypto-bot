@@ -3,8 +3,11 @@ using Binance.Spot.Models;
 using CryptoBot.CrossCutting.Enums;
 using CryptoBot.CrossCutting.JsonConverters;
 using Side = Binance.Spot.Models.Side;
+using OrderType = Binance.Spot.Models.OrderType;
+using TimeInForce = Binance.Spot.Models.TimeInForce;
+using NewOrderResponseType = Binance.Spot.Models.NewOrderResponseType;
 
-namespace CryptoBot.Application.Binance.Client.API;
+namespace CryptoBot.Application.Binance.Contract.DTOs;
 
 public class NewOrderDto
 {

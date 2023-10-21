@@ -16,6 +16,7 @@
     <ProjectReference Include="..\CryptoBot.Application\CryptoBot.Application.Binance.Client\CryptoBot.Application.Binance.Client.csproj" />
     <ProjectReference Include="..\CryptoBot.Domain\CryptoBot.Domain.csproj" />
     <ProjectReference Include="..\CryptoBot.Infrastructure\CryptoBot.Infrastructure.csproj" />
+    <ProjectReference Include="..\CryptoBot.Application\CryptoBot.Application.Binance.Contract\CryptoBot.Application.Binance.Contract.csproj" />
   </ItemGroup>
 
 </Project>

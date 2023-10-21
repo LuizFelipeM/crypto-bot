@@ -1,8 +1,8 @@
 using Newtonsoft.Json;
 
-namespace CryptoBot.Application.Binance.Client.Streams;
+namespace CryptoBot.Application.Binance.Contract.DTOs;
 
-public class TradeStreams
+public class TradeStreamDto
 {
     [JsonProperty("e")]
     public required string EventType { get; set; }

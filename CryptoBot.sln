@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CryptoBot.Application", "Cr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoBot.Application.Binance.Client", "CryptoBot.Application\CryptoBot.Application.Binance.Client\CryptoBot.Application.Binance.Client.csproj", "{71496DE3-FD80-4098-9D60-F8B1824C6CC5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoBot.Application.Binance.Contract", "CryptoBot.Application\CryptoBot.Application.Binance.Contract\CryptoBot.Application.Binance.Contract.csproj", "{E35FA281-30A1-4558-A56D-08A89537986B}"
+EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -88,8 +90,21 @@ Global
 		{71496DE3-FD80-4098-9D60-F8B1824C6CC5}.Release|x64.Build.0 = Release|Any CPU
 		{71496DE3-FD80-4098-9D60-F8B1824C6CC5}.Release|x86.ActiveCfg = Release|Any CPU
 		{71496DE3-FD80-4098-9D60-F8B1824C6CC5}.Release|x86.Build.0 = Release|Any CPU
+		{E35FA281-30A1-4558-A56D-08A89537986B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E35FA281-30A1-4558-A56D-08A89537986B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E35FA281-30A1-4558-A56D-08A89537986B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E35FA281-30A1-4558-A56D-08A89537986B}.Debug|x64.Build.0 = Debug|Any CPU
+		{E35FA281-30A1-4558-A56D-08A89537986B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E35FA281-30A1-4558-A56D-08A89537986B}.Debug|x86.Build.0 = Debug|Any CPU
+		{E35FA281-30A1-4558-A56D-08A89537986B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E35FA281-30A1-4558-A56D-08A89537986B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E35FA281-30A1-4558-A56D-08A89537986B}.Release|x64.ActiveCfg = Release|Any CPU
+		{E35FA281-30A1-4558-A56D-08A89537986B}.Release|x64.Build.0 = Release|Any CPU
+		{E35FA281-30A1-4558-A56D-08A89537986B}.Release|x86.ActiveCfg = Release|Any CPU
+		{E35FA281-30A1-4558-A56D-08A89537986B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{71496DE3-FD80-4098-9D60-F8B1824C6CC5} = {DF3CF71D-DB58-45F1-990C-FCC8F0D7788E}
+		{E35FA281-30A1-4558-A56D-08A89537986B} = {DF3CF71D-DB58-45F1-990C-FCC8F0D7788E}
 	EndGlobalSection
 EndGlobal

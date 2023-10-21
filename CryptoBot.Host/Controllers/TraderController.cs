@@ -1,5 +1,5 @@
-using CryptoBot.Application.Binance.Client;
-using CryptoBot.Application.Binance.Client.API;
+using CryptoBot.Application.Binance.Contract.DTOs;
+using CryptoBot.Application.Binance.Contract.Interfaces;
 using CryptoBot.Domain.Interfaces.Repositories;
 using CryptoBot.Domain.Models;
 using Microsoft.AspNetCore.Mvc;

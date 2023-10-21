@@ -1,4 +1,4 @@
-namespace CryptoBot.Application.Binance.Client;
+namespace CryptoBot.Application.Binance.Contract.Interfaces;
 
 public interface IBinanceMarketClient
 {

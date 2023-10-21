@@ -14,6 +14,7 @@ builder.Services
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 ContainerStartup.RegisterServices(builder.Configuration, builder.Services);
+ContainerStartup.RegisterRepositories(builder.Configuration, builder.Services);
 
 var app = builder.Build();
 

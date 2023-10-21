@@ -1,4 +1,6 @@
 using Binance.Spot;
+using CryptoBot.Application.Binance.Contract;
+using CryptoBot.Application.Binance.Contract.Interfaces;
 using Microsoft.Extensions.Logging;
 
 namespace CryptoBot.Application.Binance.Client.Streams;
