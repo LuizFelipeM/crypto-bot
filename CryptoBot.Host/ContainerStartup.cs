@@ -1,5 +1,6 @@
 using System.Reflection;
 using CryptoBot.Application.Binance.Client.API;
+using CryptoBot.Application.Binance.Client.Historical;
 using CryptoBot.Application.Binance.Client.Streams;
 using CryptoBot.Application.Binance.Contract;
 using CryptoBot.Application.Binance.Contract.Interfaces;
@@ -19,6 +20,7 @@ public static class ContainerStartup
         services.AddSingleton(binanceConfig);
         services.AddSingleton<IBinanceMarketClient, BinanceMarketClient>();
         services.AddSingleton<IBinanceSpotClient, BinanceSpotClient>();
+        services.AddSingleton<IBinanceHistoricalClient, BinanceHistoricalClient>();
     }
 
     public static void RegisterRepositories(ConfigurationManager configuration, IServiceCollection services)
