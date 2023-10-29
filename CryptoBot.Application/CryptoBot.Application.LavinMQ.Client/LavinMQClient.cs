@@ -1,11 +1,11 @@
-using CryptoBot.Application.LavinMQ.Contract;
 using CryptoBot.Application.LavinMQ.Contract.Configs;
+using CryptoBot.Application.LavinMQ.Contract.Interfaces;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
 namespace CryptoBot.Application.LavinMQ.Client;
 
-public class LavinMQClient : IDisposable
+public class LavinMQClient : ILavinMQClient, IDisposable
 {
     protected readonly ConnectionFactory _factory;
     protected IConnection? _connection;
@@ -19,9 +19,10 @@ public class LavinMQClient : IDisposable
         _config = config;
         _factory = new ConnectionFactory
         {
-            Uri = new Uri(config.Url),
-            DispatchConsumersAsync = config.DispatchConsumersAsync,
+            UserName = config.UserName,
             Password = config.Password,
+            Port = config.Port,
+            DispatchConsumersAsync = config.DispatchConsumersAsync,
             VirtualHost = config.VirtualHost,
             RequestedHeartbeat = config.RequestedHeartbeat,
             AutomaticRecoveryEnabled = config.AutomaticRecoveryEnabled,

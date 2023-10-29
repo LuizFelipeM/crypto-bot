@@ -1,10 +1,11 @@
 namespace CryptoBot.Application.LavinMQ.Contract.Attributes;
 
 [AttributeUsage(AttributeTargets.Class)]
-public class LavinMQRoutingKeyAttribute : Attribute
+public class RoutingKeyAttribute : Attribute
 {
     public string RoutingKey;
-    public LavinMQRoutingKeyAttribute(string routingKey)
+
+    public RoutingKeyAttribute(string routingKey)
     {
         RoutingKey = routingKey;
     }

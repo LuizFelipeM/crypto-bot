@@ -2,7 +2,7 @@ namespace CryptoBot.Application.LavinMQ.Contract.Configs;
 
 public class LavinMQHostConfig
 {
-    public required string Url { get; set; }
+    public required string UserName { get; set; }
     public required string Password { get; set; }
     public required int Port { get; set; }
     public string? HostName { get; set; }
