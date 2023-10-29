@@ -1,6 +1,5 @@
-using Binance.Spot.Models;
-using CryptoBot.Application.Binance.Contract.DTOs;
-using CryptoBot.Application.Binance.Contract.Interfaces;
+using CryptoBot.Application.Service.Interfaces.Historical;
+using CryptoBot.CrossCutting.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CryptoBot.Host.Controllers;
@@ -10,23 +9,45 @@ namespace CryptoBot.Host.Controllers;
 public class HistoricalController : ControllerBase
 {
     private readonly ILogger<HistoricalController> _logger;
-    private readonly IBinanceHistoricalClient _binanceHistoricalClient;
+    private readonly IHistoricalService _historicalService;
 
     public HistoricalController(
         ILogger<HistoricalController> logger,
-        IBinanceHistoricalClient binanceHistoricalClient)
+        IHistoricalService historicalService)
     {
         _logger = logger;
-        _binanceHistoricalClient = binanceHistoricalClient;
+        _historicalService = historicalService;
     }
 
     [HttpGet("klines")]
     public IEnumerable<KlineDto> GetKlines([FromQuery] string symbol, [FromQuery] int startYear, [FromQuery] int startMonth, [FromQuery] int startDay, [FromQuery] int endYear, [FromQuery] int endMonth, [FromQuery] int endDay)
     {
-        DateTime startTime = new(startYear, startMonth, startDay);
-        DateTime endTime = new(endYear, endMonth, endDay);
-        var a = _binanceHistoricalClient.GetKlines(symbol, Interval.ONE_SECOND, startTime, endTime).Result;
-        var count = a.Count();
-        return a;
+        // DateTime startTime = new(startYear, startMonth, startDay);
+        // DateTime endTime = new(endYear, endMonth, endDay);
+        // var a = _historicalService.GetKlines(symbol, Interval.ONE_SECOND, startTime, endTime).Result;
+        // var bSize = a.GetSize();
+        // return a;
+        return new List<KlineDto>();
+    }
+
+    [HttpPost("publish/kline")]
+    public void PublishKline()
+    {
+        var rand = new Random();
+        _historicalService.Publish(new()
+        {
+            OpenTime = DateTime.Now.AddSeconds(-1),
+            OpenPrice = rand.NextDouble() * 100,
+            HighPrice = rand.NextDouble() * 100,
+            LowPrice = rand.NextDouble() * 100,
+            ClosePrice = rand.NextDouble() * 100,
+            Volume = rand.Next(),
+            CloseTime = DateTime.Now,
+            QuoteAssetVolume = rand.NextDouble() * 100,
+            NumberOfTrades = rand.Next(),
+            TakerBuyBaseAssetVolume = rand.NextDouble() * 100,
+            TakerBuyQuoteAssetVolume = rand.NextDouble() * 100,
+        })
+        .Wait();
     }
 }

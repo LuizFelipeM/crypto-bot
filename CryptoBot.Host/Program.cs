@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using CryptoBot.Application.Service.Mappers;
 using CryptoBot.Host;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,8 +14,11 @@ builder.Services
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+ContainerStartup.RegisterJobs(builder.Configuration, builder.Services);
+ContainerStartup.RegisterLavinMQClients(builder.Configuration, builder.Services);
 ContainerStartup.RegisterServices(builder.Configuration, builder.Services);
 ContainerStartup.RegisterRepositories(builder.Configuration, builder.Services);
+MapperStartup.RegisterMappers();
 
 var app = builder.Build();
 

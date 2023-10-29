@@ -9,7 +9,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.10" />
+    <PackageReference Include="Quartz" Version="3.7.0" />
+    <PackageReference Include="Quartz.AspNetCore" Version="3.7.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="YamlDotNet" Version="13.7.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,6 +20,8 @@
     <ProjectReference Include="..\CryptoBot.Domain\CryptoBot.Domain.csproj" />
     <ProjectReference Include="..\CryptoBot.Infrastructure\CryptoBot.Infrastructure.csproj" />
     <ProjectReference Include="..\CryptoBot.Application\CryptoBot.Application.Binance.Contract\CryptoBot.Application.Binance.Contract.csproj" />
+    <ProjectReference Include="..\CryptoBot.Application\CryptoBot.Application.Service\CryptoBot.Application.Service.csproj" />
+    <ProjectReference Include="..\CryptoBot.Application\CryptoBot.Application.Job\CryptoBot.Application.Job.csproj" />
   </ItemGroup>
 
 </Project>
