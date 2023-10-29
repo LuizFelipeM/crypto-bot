@@ -17,6 +17,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoBot.Application.Binan
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoBot.Application.Binance.Contract", "CryptoBot.Application\CryptoBot.Application.Binance.Contract\CryptoBot.Application.Binance.Contract.csproj", "{E35FA281-30A1-4558-A56D-08A89537986B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoBot.Application.LavinMQ.Client", "CryptoBot.Application\CryptoBot.Application.LavinMQ.Client\CryptoBot.Application.LavinMQ.Client.csproj", "{6726CC36-AB6A-4BC2-A089-B0C75CD4CDFD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoBot.Application.LavinMQ.Contract", "CryptoBot.Application\CryptoBot.Application.LavinMQ.Contract\CryptoBot.Application.LavinMQ.Contract.csproj", "{C99AF4D5-8746-4BC1-8281-730AA46F96B6}"
+EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -102,9 +106,35 @@ Global
 		{E35FA281-30A1-4558-A56D-08A89537986B}.Release|x64.Build.0 = Release|Any CPU
 		{E35FA281-30A1-4558-A56D-08A89537986B}.Release|x86.ActiveCfg = Release|Any CPU
 		{E35FA281-30A1-4558-A56D-08A89537986B}.Release|x86.Build.0 = Release|Any CPU
+		{6726CC36-AB6A-4BC2-A089-B0C75CD4CDFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6726CC36-AB6A-4BC2-A089-B0C75CD4CDFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6726CC36-AB6A-4BC2-A089-B0C75CD4CDFD}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6726CC36-AB6A-4BC2-A089-B0C75CD4CDFD}.Debug|x64.Build.0 = Debug|Any CPU
+		{6726CC36-AB6A-4BC2-A089-B0C75CD4CDFD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6726CC36-AB6A-4BC2-A089-B0C75CD4CDFD}.Debug|x86.Build.0 = Debug|Any CPU
+		{6726CC36-AB6A-4BC2-A089-B0C75CD4CDFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6726CC36-AB6A-4BC2-A089-B0C75CD4CDFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6726CC36-AB6A-4BC2-A089-B0C75CD4CDFD}.Release|x64.ActiveCfg = Release|Any CPU
+		{6726CC36-AB6A-4BC2-A089-B0C75CD4CDFD}.Release|x64.Build.0 = Release|Any CPU
+		{6726CC36-AB6A-4BC2-A089-B0C75CD4CDFD}.Release|x86.ActiveCfg = Release|Any CPU
+		{6726CC36-AB6A-4BC2-A089-B0C75CD4CDFD}.Release|x86.Build.0 = Release|Any CPU
+		{C99AF4D5-8746-4BC1-8281-730AA46F96B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C99AF4D5-8746-4BC1-8281-730AA46F96B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C99AF4D5-8746-4BC1-8281-730AA46F96B6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C99AF4D5-8746-4BC1-8281-730AA46F96B6}.Debug|x64.Build.0 = Debug|Any CPU
+		{C99AF4D5-8746-4BC1-8281-730AA46F96B6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C99AF4D5-8746-4BC1-8281-730AA46F96B6}.Debug|x86.Build.0 = Debug|Any CPU
+		{C99AF4D5-8746-4BC1-8281-730AA46F96B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C99AF4D5-8746-4BC1-8281-730AA46F96B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C99AF4D5-8746-4BC1-8281-730AA46F96B6}.Release|x64.ActiveCfg = Release|Any CPU
+		{C99AF4D5-8746-4BC1-8281-730AA46F96B6}.Release|x64.Build.0 = Release|Any CPU
+		{C99AF4D5-8746-4BC1-8281-730AA46F96B6}.Release|x86.ActiveCfg = Release|Any CPU
+		{C99AF4D5-8746-4BC1-8281-730AA46F96B6}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{71496DE3-FD80-4098-9D60-F8B1824C6CC5} = {DF3CF71D-DB58-45F1-990C-FCC8F0D7788E}
 		{E35FA281-30A1-4558-A56D-08A89537986B} = {DF3CF71D-DB58-45F1-990C-FCC8F0D7788E}
+		{6726CC36-AB6A-4BC2-A089-B0C75CD4CDFD} = {DF3CF71D-DB58-45F1-990C-FCC8F0D7788E}
+		{C99AF4D5-8746-4BC1-8281-730AA46F96B6} = {DF3CF71D-DB58-45F1-990C-FCC8F0D7788E}
 	EndGlobalSection
 EndGlobal
