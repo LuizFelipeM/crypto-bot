@@ -1,27 +1,41 @@
-namespace CryptoBot.Application.Binance.Contract.DTOs;
+using CryptoBot.Application.LavinMQ.Contract.Attributes;
+using Newtonsoft.Json;
 
-public class KlineDto
+namespace CryptoBot.CrossCutting.DTOs;
+
+[RoutingKey("kline")]
+public class KlineContract
 {
-    // "open time",
+    [JsonProperty("O")]
     public required DateTime OpenTime { get; set; }
-    // "open price",
+
+    [JsonProperty("o")]
     public required double OpenPrice { get; set; }
-    // "high price",
+
+    [JsonProperty("h")]
     public required double HighPrice { get; set; }
-    // "low price",
+
+    [JsonProperty("l")]
     public required double LowPrice { get; set; }
-    // "close price",
+
+    [JsonProperty("c")]
     public required double ClosePrice { get; set; }
-    // "volume",
+
+    [JsonProperty("v")]
     public required double Volume { get; set; }
-    // "close time",
+
+    [JsonProperty("C")]
     public required DateTime CloseTime { get; set; }
-    // "quote asset volume",
+
+    [JsonProperty("Q")]
     public required double QuoteAssetVolume { get; set; }
-    // "number of trades",
+
+    [JsonProperty("n")]
     public required long NumberOfTrades { get; set; }
-    // "taker buy base asset volume",
+
+    [JsonProperty("b")]
     public required double TakerBuyBaseAssetVolume { get; set; }
-    // "taker buy quote asset volume",
+
+    [JsonProperty("q")]
     public required double TakerBuyQuoteAssetVolume { get; set; }
 }

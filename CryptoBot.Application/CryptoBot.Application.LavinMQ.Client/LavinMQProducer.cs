@@ -7,6 +7,7 @@ using CryptoBot.Application.LavinMQ.Contract.Interfaces;
 namespace CryptoBot.Application.LavinMQ.Client;
 
 public class LavinMQProducer<T> : LavinMQClient, ILavinMQProducer<T>
+    where T : class
 {
     private readonly LavinMQProducerConfig _producerConfig;
 
@@ -27,16 +28,16 @@ public class LavinMQProducer<T> : LavinMQClient, ILavinMQProducer<T>
 
         if (routingKey == null)
         {
-            var routingKeyAttr = Attribute.GetCustomAttributes(typeof(T)).FirstOrDefault(a => a is LavinMQRoutingKeyAttribute);
-            routingKey = routingKeyAttr != null ? ((LavinMQRoutingKeyAttribute)routingKeyAttr).RoutingKey : null;
+            var routingKeyAttr = Attribute.GetCustomAttributes(typeof(T)).FirstOrDefault(a => a is RoutingKeyAttribute);
+            routingKey = routingKeyAttr != null ? ((RoutingKeyAttribute)routingKeyAttr).RoutingKey : null;
         }
 
         var jsonMessage = JsonSerializer.Serialize(message);
         var body = Encoding.UTF8.GetBytes(jsonMessage);
         _channel?.BasicPublish(exchange: _producerConfig.ExchangeName,
-                              routingKey: routingKey,
-                              mandatory: false,
-                              basicProperties: null,
-                              body: body);
+                               routingKey: routingKey,
+                               mandatory: false,
+                               basicProperties: null,
+                               body: body);
     }
 }

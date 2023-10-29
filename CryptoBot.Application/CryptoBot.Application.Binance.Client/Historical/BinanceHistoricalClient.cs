@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using Binance.Spot.Models;
-using CryptoBot.Application.Binance.Contract.DTOs;
 using CryptoBot.Application.Binance.Contract.Interfaces;
+using CryptoBot.CrossCutting.DTOs;
 using Microsoft.Extensions.Logging;
 using Refit;
 
@@ -26,9 +26,9 @@ public class BinanceHistoricalClient : IBinanceHistoricalClient
 
         if (interval == Interval.ONE_SECOND)
         {
-            return difference.Minutes > 5 ?
+            return difference.TotalMinutes > 5 ?
                 5 * 60 * 1000 :
-                difference.Minutes * 60 * 1000;
+                Convert.ToInt64(difference.TotalMinutes * 60 * 1000);
         }
 
         throw new NotImplementedException("Interval steps to milliseconds not found");
@@ -45,10 +45,9 @@ public class BinanceHistoricalClient : IBinanceHistoricalClient
 
         var ranges = new SortedList<long, long>();
         var stepsSize = GetIntervalStepsMilliseconds(interval, startTime, endTime);
-        for (var i = startTimeMs; i < endTimeMs; i += stepsSize)
+        for (var i = startTimeMs; i < endTimeMs - stepsSize; i += stepsSize)
         {
-            var nextStep = i + stepsSize;
-            ranges.Add(i, nextStep > endTimeMs ? endTimeMs : nextStep);
+            ranges.Add(i, i + stepsSize);
         }
 
         timer.Stop();

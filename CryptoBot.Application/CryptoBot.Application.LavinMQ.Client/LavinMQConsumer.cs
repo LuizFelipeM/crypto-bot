@@ -7,17 +7,22 @@ using RabbitMQ.Client.Events;
 
 namespace CryptoBot.Application.LavinMQ.Client;
 
-public class LavinMQConsumer<T> : LavinMQClient
+public class LavinMQConsumer<T> : LavinMQClient, ILavinMQConsumer<T>
     where T : class
 {
-    private readonly LavinMQConsumerConfig _consumerConfig;
+    private readonly ILavinMQConsumerConfig _consumerConfig;
     private readonly ILavinMQReceiveConsumer<T> _receiveConsumer;
     private readonly IServiceScopeFactory _serviceScopeFactory;
     private AsyncEventingBasicConsumer _basicConsumer;
-    private SortedDictionary<ulong, LavinMQMessageForConsume<T>> _processes;
+    private SortedDictionary<ulong, MessageForConsume<T>> _processes;
     private Task _taskProcess;
 
-    public LavinMQConsumer(LavinMQHostConfig hostConfig, LavinMQConsumerConfig consumerConfig, ILavinMQReceiveConsumer<T> receiveConsumer, IServiceScopeFactory serviceScopeFactory) : base(hostConfig)
+    public LavinMQConsumer(
+        LavinMQHostConfig hostConfig,
+        ILavinMQConsumerConfig consumerConfig,
+        ILavinMQReceiveConsumer<T> receiveConsumer,
+        IServiceScopeFactory serviceScopeFactory
+    ) : base(hostConfig)
     {
         _consumerConfig = consumerConfig;
         _receiveConsumer = receiveConsumer;
@@ -33,23 +38,11 @@ public class LavinMQConsumer<T> : LavinMQClient
             throw new InvalidOperationException($"Connection with LavinMQ {_config.HostName} is not open");
         }
 
-        var queueService = new LavinMQQueueService(_consumerConfig.Queue, _channel);
-
-        try
-        {
-            queueService.Create();
-        }
-        catch (Exception ex)
-        {
-            if (ex.Message.Contains("not empty")) await Connect();
-            else throw;
-        }
-
         _basicConsumer = new AsyncEventingBasicConsumer(_channel);
-        _channel.BasicQos(prefetchSize: 0,
+        _channel?.BasicQos(prefetchSize: 0,
                           prefetchCount: _consumerConfig.PrefetchCount,
                           global: false);
-        _channel.BasicConsume(queue: _consumerConfig.Queue.Name,
+        _channel.BasicConsume(queue: _consumerConfig.QueueName,
                               autoAck: _consumerConfig.AutoAck,
                               consumer: _basicConsumer);
         _basicConsumer.Received += ProcessMessage;
@@ -57,7 +50,7 @@ public class LavinMQConsumer<T> : LavinMQClient
 
     public async Task ProcessMessage(object ch, BasicDeliverEventArgs ea)
     {
-        LavinMQMessageForConsume<T> message = ea;
+        MessageForConsume<T> message = ea;
         if (message.Entity != null)
         {
             lock (_processes)
@@ -68,7 +61,7 @@ public class LavinMQConsumer<T> : LavinMQClient
         }
         else
         {
-            _channel.BasicNack(deliveryTag: ea.DeliveryTag,
+            _channel?.BasicNack(deliveryTag: ea.DeliveryTag,
                                multiple: false,
                                requeue: false);
         }
@@ -83,7 +76,7 @@ public class LavinMQConsumer<T> : LavinMQClient
         {
             try
             {
-                List<LavinMQMessageForConsume<T>> processes = new(_processes.Select(p => p.Value).ToList());
+                List<MessageForConsume<T>> processes = new(_processes.Select(p => p.Value).ToList());
 
                 IServiceScope scope;
                 ILavinMQReceiveConsumer<T> consumer;
@@ -104,14 +97,14 @@ public class LavinMQConsumer<T> : LavinMQClient
                     foreach (var message in response.SuccessMessages)
                     {
                         _processes.Remove(message.Key);
-                        _channel.BasicAck(deliveryTag: message.Key,
+                        _channel?.BasicAck(deliveryTag: message.Key,
                                           multiple: false);
                     }
 
                     foreach (var message in response.ErrorMessages)
                     {
                         _processes.Remove(message.Key);
-                        _channel.BasicNack(deliveryTag: message.Key,
+                        _channel?.BasicNack(deliveryTag: message.Key,
                                            multiple: false,
                                            requeue: false);
                     }

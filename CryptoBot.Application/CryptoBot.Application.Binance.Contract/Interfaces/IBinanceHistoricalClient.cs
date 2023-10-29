@@ -1,5 +1,5 @@
 using Binance.Spot.Models;
-using CryptoBot.Application.Binance.Contract.DTOs;
+using CryptoBot.CrossCutting.DTOs;
 
 namespace CryptoBot.Application.Binance.Contract.Interfaces;
 

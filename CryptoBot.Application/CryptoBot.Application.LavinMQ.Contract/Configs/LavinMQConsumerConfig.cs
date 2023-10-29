@@ -1,8 +1,8 @@
 namespace CryptoBot.Application.LavinMQ.Contract.Configs;
 
-public class LavinMQConsumerConfig
+public class ILavinMQConsumerConfig
 {
-    public required LavinMQQueueConfig Queue { get; set; }
+    public required string QueueName { get; set; }
     public ushort PrefetchCount { get; set; } = 1;
     public bool AutoAck { get; set; } = true;
     public bool NoLocal { get; set; } = false;

@@ -9,7 +9,8 @@ public class LavinMQQueueConfig
     public bool Durable { get; set; } = true;
     public bool Exclusive { get; set; } = false;
     public bool AutoDelete { get; set; } = false;
+    public bool ForceDelete { get; set; } = false;
     public LavinMQFeaturesConfig? Features { get; set; }
-    public List<LavinMQBindQueueConfig> BindArguments { get; set; } = new();
+    public List<LavinMQBindQueueConfig> Bindings { get; set; } = new();
     public LavinMQQueueConfig? DeadLetterQueue { get; set; }
 }
