@@ -115,6 +115,8 @@ public static class ContainerStartup
                         .WithCronSchedule(config.Cron));
                 });
         });
+
+        services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
     }
 
     public static void RegisterLavinMQClients(ConfigurationManager configuration, IServiceCollection services)
@@ -129,8 +131,8 @@ public static class ContainerStartup
 
         var klineConsumerConfig = configuration.GetSection("LavinMQ:Consumers:Kline").Get<KlineConsumerConfig>();
         services.AddSingleton(klineConsumerConfig);
-        services.AddScoped<ILavinMQConsumer<KlineDto>, KlineConsumer>();
-        services.AddScoped<ILavinMQReceiveConsumer<KlineDto>, KlineReceiveConsumer>();
+        services.AddScoped<ILavinMQConsumer<KlineContract>, KlineConsumer>();
+        services.AddScoped<ILavinMQReceiveConsumer<KlineContract>, KlineReceiveConsumer>();
     }
 
     private static void LavinMQStartup(LavinMQHostConfig hostConfig)

@@ -4,10 +4,11 @@ using CryptoBot.CrossCutting.DTOs;
 
 namespace CryptoBot.Application.Service.Historical.Consumer;
 
-public class KlineReceiveConsumer : LavinMQReceiveConsumer<KlineDto>, ILavinMQReceiveConsumer<KlineDto>
+public class KlineReceiveConsumer : LavinMQReceiveConsumer<KlineContract>, ILavinMQReceiveConsumer<KlineContract>
 {
-    public override Task ProcessMessage(KlineDto payload)
+    public override Task ProcessMessage(KlineContract payload)
     {
-        throw new NotImplementedException();
+        // throw new NotImplementedException();
+        return Task.CompletedTask;
     }
 }

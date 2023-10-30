@@ -14,7 +14,7 @@ public class LavinMQConsumer<T> : LavinMQClient, ILavinMQConsumer<T>
     private readonly ILavinMQReceiveConsumer<T> _receiveConsumer;
     private readonly IServiceScopeFactory _serviceScopeFactory;
     private AsyncEventingBasicConsumer _basicConsumer;
-    private SortedDictionary<ulong, MessageForConsume<T>> _processes;
+    private SortedDictionary<ulong, MessageForConsume<T>> _processes = new();
     private Task _taskProcess;
 
     public LavinMQConsumer(
@@ -98,37 +98,37 @@ public class LavinMQConsumer<T> : LavinMQClient, ILavinMQConsumer<T>
                     {
                         _processes.Remove(message.Key);
                         _channel?.BasicAck(deliveryTag: message.Key,
-                                          multiple: false);
+                                           multiple: false);
                     }
 
                     foreach (var message in response.ErrorMessages)
                     {
                         _processes.Remove(message.Key);
                         _channel?.BasicNack(deliveryTag: message.Key,
-                                           multiple: false,
-                                           requeue: false);
+                                            multiple: false,
+                                            requeue: false);
                     }
+
+                    ulong[]? keyForRemove = null;
+                    lock (_processes)
+                    {
+                        var listKeysForRemove = _processes
+                            .Where(p => p.Key <= response.SuccessMessages.FirstOrDefault().Key)
+                            .Select(p => p.Key)
+                            .ToList();
+                        var auxiliarKeysForRemove = _processes
+                            .Where(p => p.Key <= response.ErrorMessages.FirstOrDefault().Key)
+                            .Select(p => p.Key)
+                            .ToList();
+
+                        listKeysForRemove.AddRange(auxiliarKeysForRemove);
+                        keyForRemove = listKeysForRemove.Where(k => k != 0).ToArray();
+                    }
+
+                    if (keyForRemove != null)
+                        foreach (var key in keyForRemove)
+                            _processes.Remove(key);
                 }
-
-                ulong[]? keyForRemove = null;
-                lock (_processes)
-                {
-                    var listKeysForRemove = _processes
-                        .Where(p => p.Key <= response.SuccessMessages.FirstOrDefault().Key)
-                        .Select(p => p.Key)
-                        .ToList();
-                    var auxiliarKeysForRemove = _processes
-                        .Where(p => p.Key <= response.ErrorMessages.FirstOrDefault().Key)
-                        .Select(p => p.Key)
-                        .ToList();
-
-                    listKeysForRemove.AddRange(auxiliarKeysForRemove);
-                    keyForRemove = listKeysForRemove.Where(k => k != 0).ToArray();
-                }
-
-                if (keyForRemove != null)
-                    foreach (var key in keyForRemove)
-                        _processes.Remove(key);
             }
             catch (Exception)
             {
