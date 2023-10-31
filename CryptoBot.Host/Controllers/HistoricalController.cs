@@ -1,5 +1,5 @@
-using CryptoBot.Application.Service.Interfaces.Historical;
 using CryptoBot.CrossCutting.DTOs;
+using CryptoBot.Infrastructure.Service.Interfaces.Historical;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CryptoBot.Host.Controllers;

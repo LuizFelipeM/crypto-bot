@@ -1,4 +1,4 @@
-namespace CryptoBot.Application.Job;
+namespace CryptoBot.Infrastructure.Job;
 
 public class JobConfig
 {

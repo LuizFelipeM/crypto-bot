@@ -1,7 +1,7 @@
 using CryptoBot.Application.LavinMQ.Contract.Attributes;
 using Newtonsoft.Json;
 
-namespace CryptoBot.CrossCutting.DTOs;
+namespace CryptoBot.Infrastructure.Service.Contracts;
 
 [RoutingKey("kline")]
 public class KlineContract

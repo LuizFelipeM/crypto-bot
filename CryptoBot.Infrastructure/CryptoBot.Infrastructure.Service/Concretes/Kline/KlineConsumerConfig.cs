@@ -1,6 +1,6 @@
 using CryptoBot.Application.LavinMQ.Contract.Configs;
 
-namespace CryptoBot.Application.Service.Historical.Consumer;
+namespace CryptoBot.Infrastructure.Service.Concretes.Kline;
 
 public class KlineConsumerConfig : ILavinMQConsumerConfig
 {

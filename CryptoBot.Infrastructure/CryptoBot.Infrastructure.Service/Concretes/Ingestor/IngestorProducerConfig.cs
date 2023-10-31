@@ -1,6 +1,6 @@
 using CryptoBot.Application.LavinMQ.Contract.Configs;
 
-namespace CryptoBot.Application.Service.Historical.Producer;
+namespace CryptoBot.Infrastructure.Service.Historical.Producer;
 
 public class IngestorProducerConfig : LavinMQProducerConfig
 {

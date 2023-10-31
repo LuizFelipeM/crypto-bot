@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Quartz;
 
-namespace CryptoBot.Application.Job;
+namespace CryptoBot.Infrastructure.Job;
 
 [DisallowConcurrentExecution]
 public abstract class LavinMQConsumerJob<T> : IJob

@@ -2,10 +2,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\CryptoBot.Domain\CryptoBot.Domain.csproj" />
-    <ProjectReference Include="..\CryptoBot.Application.Binance.Contract\CryptoBot.Application.Binance.Contract.csproj" />
-    <ProjectReference Include="..\CryptoBot.Application.LavinMQ.Contract\CryptoBot.Application.LavinMQ.Contract.csproj" />
     <ProjectReference Include="..\..\CryptoBot.CrossCutting\CryptoBot.CrossCutting.csproj" />
-    <ProjectReference Include="..\CryptoBot.Application.LavinMQ.Client\CryptoBot.Application.LavinMQ.Client.csproj" />
+    <ProjectReference Include="..\..\CryptoBot.Application\CryptoBot.Application.LavinMQ.Contract\CryptoBot.Application.LavinMQ.Contract.csproj" />
+    <ProjectReference Include="..\..\CryptoBot.Application\CryptoBot.Application.LavinMQ.Client\CryptoBot.Application.LavinMQ.Client.csproj" />
+    <ProjectReference Include="..\..\CryptoBot.Application\CryptoBot.Application.Binance.Client\CryptoBot.Application.Binance.Client.csproj" />
   </ItemGroup>
 
   <ItemGroup>

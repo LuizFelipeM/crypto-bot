@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
-using CryptoBot.Application.Service.Mappers;
 using CryptoBot.Host;
+using CryptoBot.Infrastructure.Service.Mappers;
 
 var builder = WebApplication.CreateBuilder(args);
 

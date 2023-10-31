@@ -1,14 +1,15 @@
 using Binance.Spot.Models;
 using CryptoBot.Application.Binance.Contract.Interfaces;
-using CryptoBot.Application.Service.Ingestor;
-using CryptoBot.Application.Service.Interfaces.Historical;
 using CryptoBot.CrossCutting.DTOs;
 using CryptoBot.CrossCutting.Enums;
 using CryptoBot.CrossCutting.Utils;
+using CryptoBot.Infrastructure.Service.Contracts;
+using CryptoBot.Infrastructure.Service.Ingestor;
+using CryptoBot.Infrastructure.Service.Interfaces.Historical;
 using Microsoft.Extensions.Logging;
 using Nelibur.ObjectMapper;
 
-namespace CryptoBot.Application.Service.Historical;
+namespace CryptoBot.Infrastructure.Service.Historical;
 
 public class HistoricalService : IHistoricalService
 {

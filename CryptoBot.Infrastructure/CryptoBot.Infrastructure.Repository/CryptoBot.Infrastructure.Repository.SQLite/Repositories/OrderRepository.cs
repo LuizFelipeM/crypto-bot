@@ -2,7 +2,7 @@ using CryptoBot.Domain.Interfaces.Repositories;
 using CryptoBot.Domain.Models;
 using SQLite;
 
-namespace CryptoBot.Infrastructure.Repositories;
+namespace CryptoBot.Infrastructure.Repository.SQLite.Repositories;
 
 public class OrderRepository : IOrderRepository
 {

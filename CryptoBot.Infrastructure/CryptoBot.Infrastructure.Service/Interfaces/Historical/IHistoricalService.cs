@@ -1,6 +1,6 @@
 using CryptoBot.CrossCutting.DTOs;
 
-namespace CryptoBot.Application.Service.Interfaces.Historical;
+namespace CryptoBot.Infrastructure.Service.Interfaces.Historical;
 
 public interface IHistoricalService
 {

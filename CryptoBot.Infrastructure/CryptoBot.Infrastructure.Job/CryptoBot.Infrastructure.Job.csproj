@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\CryptoBot.Application.Service\CryptoBot.Application.Service.csproj" />
     <ProjectReference Include="..\..\CryptoBot.Domain\CryptoBot.Domain.csproj" />
+    <ProjectReference Include="..\CryptoBot.Infrastructure.Service\CryptoBot.Infrastructure.Service.csproj" />
   </ItemGroup>
 
   <ItemGroup>

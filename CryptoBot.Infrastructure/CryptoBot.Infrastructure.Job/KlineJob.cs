@@ -1,7 +1,7 @@
-﻿using CryptoBot.CrossCutting.DTOs;
+﻿using CryptoBot.Infrastructure.Service.Contracts;
 using Microsoft.Extensions.Logging;
 
-namespace CryptoBot.Application.Job;
+namespace CryptoBot.Infrastructure.Job;
 
 public class KlineJob : LavinMQConsumerJob<KlineContract>
 {
