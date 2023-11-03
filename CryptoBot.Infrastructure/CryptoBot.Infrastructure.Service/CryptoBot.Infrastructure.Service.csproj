@@ -13,6 +13,10 @@
     <PackageReference Include="TinyMapper" Version="3.0.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Observers\" />
+  </ItemGroup>
+
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>

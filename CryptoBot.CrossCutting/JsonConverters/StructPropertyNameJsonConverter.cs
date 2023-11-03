@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace CryptoBot.CrossCutting.JsonConverters;
 
-public class StructJsonConverter<T> : JsonConverter<T> where T : struct
+public class StructPropertyNameJsonConverter<T> : JsonConverter<T> where T : struct
 {
     public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {

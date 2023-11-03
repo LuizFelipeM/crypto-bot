@@ -9,5 +9,6 @@ public static class MapperStartup
     public static void RegisterMappers()
     {
         TinyMapper.Bind<KlineDto, KlineContract>();
+        TinyMapper.Bind<Domain.Models.Types.Interval, Binance.Spot.Models.Interval>();
     }
 }

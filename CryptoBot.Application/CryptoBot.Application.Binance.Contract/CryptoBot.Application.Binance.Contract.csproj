@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\CryptoBot.CrossCutting\CryptoBot.CrossCutting.csproj" />
-    <ProjectReference Include="..\..\CryptoBot.Domain\CryptoBot.Domain.csproj" />
   </ItemGroup>
 
 </Project>

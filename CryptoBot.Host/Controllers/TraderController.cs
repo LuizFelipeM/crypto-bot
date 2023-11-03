@@ -11,26 +11,17 @@ namespace CryptoBot.Host.Controllers;
 public class TraderController : ControllerBase
 {
     private readonly ILogger<TraderController> _logger;
-    private readonly IBinanceMarketClient _binanceMarketClient;
     private readonly IBinanceSpotClient _binanceSpotClient;
     private readonly IOrderRepository _orderRepository;
 
     public TraderController(
         ILogger<TraderController> logger,
-        IBinanceMarketClient binanceMarketClient,
         IBinanceSpotClient binanceSpotClient,
         IOrderRepository orderRepository)
     {
         _logger = logger;
-        _binanceMarketClient = binanceMarketClient;
         _binanceSpotClient = binanceSpotClient;
         _orderRepository = orderRepository;
-    }
-
-    [HttpGet("subscribe")]
-    public async Task Subscribe()
-    {
-        await _binanceMarketClient.Subscribe("bnbbtc@trade", async data => _logger.LogInformation(data));
     }
 
     [HttpPost("order")]

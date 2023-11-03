@@ -4,9 +4,9 @@ using CryptoBot.Infrastructure.Service.Contracts;
 
 namespace CryptoBot.Infrastructure.Service.Concretes.Kline;
 
-public class KlineReceiveConsumer : LavinMQReceiveConsumer<KlineContract>, ILavinMQReceiveConsumer<KlineContract>
+public class KlineReceiveConsumer : LavinMQReceiveConsumer<IEnumerable<KlineContract>>, ILavinMQReceiveConsumer<IEnumerable<KlineContract>>
 {
-    public override async Task ProcessMessage(KlineContract payload)
+    public override async Task ProcessMessage(IEnumerable<KlineContract> payload)
     {
         throw new NotImplementedException();
     }

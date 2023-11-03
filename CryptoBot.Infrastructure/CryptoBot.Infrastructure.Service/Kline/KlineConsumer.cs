@@ -6,12 +6,12 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace CryptoBot.Infrastructure.Service.Concretes.Kline;
 
-public class KlineConsumer : LavinMQConsumer<KlineContract>, ILavinMQConsumer<KlineContract>
+public class KlineConsumer : LavinMQConsumer<IEnumerable<KlineContract>>, ILavinMQConsumer<IEnumerable<KlineContract>>
 {
     public KlineConsumer(
         LavinMQHostConfig hostConfig,
         KlineConsumerConfig consumerConfig,
-        ILavinMQReceiveConsumer<KlineContract> receiveConsumer,
+        ILavinMQReceiveConsumer<IEnumerable<KlineContract>> receiveConsumer,
         IServiceScopeFactory serviceScopeFactory
     ) : base(hostConfig, consumerConfig, receiveConsumer, serviceScopeFactory)
     {

@@ -41,6 +41,41 @@ public static class MemoryUtils
     /// <param name="value">Value in the choosen measurement unit</param>
     /// <param name="unit">Unit of the value to be converted</param>
     /// <returns>Equivalent byte size of the choosen measurement unit</returns>
-    public static double FromSize(this double value, Unit unit) =>
-        value * Math.Pow(1024, (int)unit);
+    public static long FromSize(this double value, Unit unit) =>
+        Convert.ToInt64(value * Math.Pow(1024, (int)unit));
+
+    /// <summary>
+    /// Split a list in multiple lists of the choosen memory size
+    /// </summary>
+    /// <typeparam name="T">List type</typeparam>
+    /// <param name="list">Source list</param>
+    /// <param name="size">Size value to split in the choosen unit</param>
+    /// <param name="unit">Unit of the size value</param>
+    /// <returns></returns>
+    public static IEnumerable<IEnumerable<T>> Split<T>(this IEnumerable<T> list, double size, Unit unit)
+    {
+        List<List<T>> result = new();
+        long sizeValue = size.FromSize(unit);
+
+        List<T> currentList = new();
+        long currentListMemorySize = 0;
+        foreach (var item in list)
+        {
+            long itemSize = item.GetSize();
+
+            if (currentListMemorySize + itemSize <= sizeValue)
+            {
+                currentList.Add(item);
+                currentListMemorySize += itemSize;
+            }
+            else
+            {
+                result.Add(currentList);
+                currentListMemorySize = 0;
+                currentList = new();
+            }
+        }
+
+        return result.Append(currentList);
+    }
 }

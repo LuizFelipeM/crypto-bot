@@ -1,6 +1,9 @@
+using Binance.Spot.Models;
 using CryptoBot.CrossCutting.DTOs;
-using CryptoBot.Infrastructure.Service.Interfaces.Historical;
+using CryptoBot.Domain.Interfaces.Services;
+using CryptoBot.Domain.Models.Types;
 using Microsoft.AspNetCore.Mvc;
+using Interval = CryptoBot.Domain.Models.Types.Interval;
 
 namespace CryptoBot.Host.Controllers;
 
@@ -19,6 +22,12 @@ public class HistoricalController : ControllerBase
         _historicalService = historicalService;
     }
 
+    [HttpGet("subscribe/btc")]
+    public void SubscribeBtc() => _historicalService.SubscribeBtc();
+
+    [HttpGet("subscribe/usdt")]
+    public void SubscribeUsdt() => _historicalService.SubscribeUsdt();
+
     [HttpGet("klines")]
     public IEnumerable<KlineDto> GetKlines([FromQuery] string symbol, [FromQuery] int startYear, [FromQuery] int startMonth, [FromQuery] int startDay, [FromQuery] int endYear, [FromQuery] int endMonth, [FromQuery] int endDay)
     {
@@ -34,20 +43,39 @@ public class HistoricalController : ControllerBase
     public void PublishKline()
     {
         var rand = new Random();
-        _historicalService.Publish(new()
+        _historicalService.Publish(new List<KlineDto>
         {
-            OpenTime = DateTime.Now.AddSeconds(-1),
-            OpenPrice = rand.NextDouble() * 100,
-            HighPrice = rand.NextDouble() * 100,
-            LowPrice = rand.NextDouble() * 100,
-            ClosePrice = rand.NextDouble() * 100,
-            Volume = rand.Next(),
-            CloseTime = DateTime.Now,
-            QuoteAssetVolume = rand.NextDouble() * 100,
-            NumberOfTrades = rand.Next(),
-            TakerBuyBaseAssetVolume = rand.NextDouble() * 100,
-            TakerBuyQuoteAssetVolume = rand.NextDouble() * 100,
+            new()
+            {
+                OpenTime = DateTime.Now.AddSeconds(-1),
+                OpenPrice = rand.NextDouble() * 100,
+                HighPrice = rand.NextDouble() * 100,
+                LowPrice = rand.NextDouble() * 100,
+                ClosePrice = rand.NextDouble() * 100,
+                Volume = rand.Next(),
+                CloseTime = DateTime.Now,
+                QuoteAssetVolume = rand.NextDouble() * 100,
+                NumberOfTrades = rand.Next(),
+                TakerBuyBaseAssetVolume = rand.NextDouble() * 100,
+                TakerBuyQuoteAssetVolume = rand.NextDouble() * 100,
+            }
         })
         .Wait();
+    }
+
+    [HttpGet("ingest/kline")]
+    public void IngestKline([FromQuery] string symbol, [FromQuery] int startYear, [FromQuery] int startMonth, [FromQuery] int startDay, [FromQuery] int endYear, [FromQuery] int endMonth, [FromQuery] int endDay)
+    {
+        try
+        {
+            DateTime startTime = new(startYear, startMonth, startDay);
+            DateTime endTime = new(endYear, endMonth, endDay);
+            _historicalService.IngestKlines(symbol, Interval.ONE_MINUTE, startTime, endTime).Wait();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Error ingesting klines - Exception {ex}");
+            throw;
+        }
     }
 }

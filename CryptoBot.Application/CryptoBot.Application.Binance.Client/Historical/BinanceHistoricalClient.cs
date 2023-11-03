@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using Binance.Spot.Models;
 using CryptoBot.Application.Binance.Contract.Interfaces;
 using CryptoBot.CrossCutting.DTOs;
@@ -31,6 +30,11 @@ public class BinanceHistoricalClient : IBinanceHistoricalClient
                 Convert.ToInt64(difference.TotalMinutes * 60 * 1000);
         }
 
+        if (interval == Interval.ONE_MINUTE)
+        {
+            return 1000 * 60 * 1000;
+        }
+
         throw new NotImplementedException("Interval steps to milliseconds not found");
     }
 
@@ -40,54 +44,96 @@ public class BinanceHistoricalClient : IBinanceHistoricalClient
 
         var (startTimeMs, endTimeMs) = (ConvertToUnixMilliseconds(startTime), ConvertToUnixMilliseconds(endTime));
 
-        var timer = new Stopwatch();
-        timer.Start();
+        // var timer = new Stopwatch();
+        // timer.Start();
 
-        var ranges = new SortedList<long, long>();
-        var stepsSize = GetIntervalStepsMilliseconds(interval, startTime, endTime);
-        for (var i = startTimeMs; i < endTimeMs - stepsSize; i += stepsSize)
-        {
-            ranges.Add(i, i + stepsSize);
-        }
+        // var ranges = new SortedList<long, long>();
+        // var stepsSize = GetIntervalStepsMilliseconds(interval, startTime, endTime);
+        // for (var i = startTimeMs; i < endTimeMs - stepsSize; i += stepsSize)
+        // {
+        //     ranges.Add(i, i + stepsSize);
+        // }
 
-        timer.Stop();
-        _logger.LogInformation($"Create range time elapsed = {timer.Elapsed}");
+        // timer.Stop();
+        // _logger.LogInformation($"Create range time elapsed = {timer.Elapsed}");
 
-        timer.Restart();
+        // timer.Restart();
 
-        var requests = new List<Task<IEnumerable<IEnumerable<dynamic>>>>();
-        foreach (var (start, end) in ranges)
-        {
-            requests.Add(_binanceV3Client.GetKlines(symbol, interval, start, end));
-        }
+        // // var requests = new List<Task<IEnumerable<IEnumerable<dynamic>>>>();
+        // var requests = new List<Task<IEnumerable<IEnumerable<dynamic>>>>();
+        // foreach (var (start, end) in ranges)
+        // {
+        //     requests.Add(_binanceV3Client.GetKlines(symbol, interval, start, end));
+        // }
 
-        timer.Stop();
-        _logger.LogInformation($"Create requests time elapsed = {timer.Elapsed}");
+        // timer.Stop();
+        // _logger.LogInformation($"Create requests time elapsed = {timer.Elapsed}");
 
-        timer.Restart();
+        // timer.Restart();
 
-        var klinesList = (await Task.WhenAll(requests.ToArray())).SelectMany(s => s).ToList();
-        var klines = klinesList.SelectMany(s => new List<KlineDto>()
-        {
-            new()
-            {
-                OpenTime = DateTimeOffset.FromUnixTimeMilliseconds(s.ElementAt(0)).DateTime,
-                OpenPrice = Convert.ToDouble(s.ElementAt(1)),
-                HighPrice = Convert.ToDouble(s.ElementAt(2)),
-                LowPrice = Convert.ToDouble(s.ElementAt(3)),
-                ClosePrice = Convert.ToDouble(s.ElementAt(4)),
-                Volume = Convert.ToDouble(s.ElementAt(5)),
-                CloseTime = DateTimeOffset.FromUnixTimeMilliseconds(s.ElementAt(6)).DateTime,
-                QuoteAssetVolume = Convert.ToDouble(s.ElementAt(7)),
-                NumberOfTrades = s.ElementAt(8),
-                TakerBuyBaseAssetVolume = Convert.ToDouble(s.ElementAt(9)),
-                TakerBuyQuoteAssetVolume = Convert.ToDouble(s.ElementAt(10)),
-            }
-        });
+        var limit = Convert.ToInt32(2.628e+6);
+        var test = await _binanceV3Client.GetKlines(symbol, interval, startTimeMs, endTimeMs, limit: limit);
 
-        timer.Stop();
-        _logger.LogInformation($"Awaiting requests time elapsed = {timer.Elapsed}");
+        // var requestBatchSize = 25;
+        var klines = new List<KlineDto>();
+        // for (int i = 0; i < requests.Count; i += requestBatchSize)
+        // {
+        //     var klinesList = (await Task.WhenAll(requests.Skip(i).Take(requestBatchSize).ToArray())).SelectMany(s => s).ToList();
+        //     klines.AddRange(
+        //         klinesList.SelectMany(s => new List<KlineDto>()
+        //         {
+        //             new()
+        //             {
+        //                 OpenTime = DateTimeOffset.FromUnixTimeMilliseconds(s.ElementAt(0)).DateTime,
+        //                 OpenPrice = Convert.ToDouble(s.ElementAt(1)),
+        //                 HighPrice = Convert.ToDouble(s.ElementAt(2)),
+        //                 LowPrice = Convert.ToDouble(s.ElementAt(3)),
+        //                 ClosePrice = Convert.ToDouble(s.ElementAt(4)),
+        //                 Volume = Convert.ToDouble(s.ElementAt(5)),
+        //                 CloseTime = DateTimeOffset.FromUnixTimeMilliseconds(s.ElementAt(6)).DateTime,
+        //                 QuoteAssetVolume = Convert.ToDouble(s.ElementAt(7)),
+        //                 NumberOfTrades = s.ElementAt(8),
+        //                 TakerBuyBaseAssetVolume = Convert.ToDouble(s.ElementAt(9)),
+        //                 TakerBuyQuoteAssetVolume = Convert.ToDouble(s.ElementAt(10)),
+        //             }
+        //         }));
+        //     Thread.Sleep(1000);
+        // }
+
+        // timer.Stop();
+        // _logger.LogInformation($"Awaiting requests time elapsed = {timer.Elapsed}");
 
         return klines;
+    }
+
+    public async IAsyncEnumerable<IEnumerable<KlineDto>> GetKlinesYield(string symbol, Interval interval, DateTime startTime, DateTime endTime)
+    {
+        if (startTime > endTime) throw new ArgumentException("startTime argument cannot be greater than endTime argument");
+
+        // var (startTimeMs, endTimeMs) = (ConvertToUnixMilliseconds(startTime), ConvertToUnixMilliseconds(endTime));
+
+        for (DateTime i = startTime; i < endTime; i = i.AddMonths(1))
+            yield return (await _binanceV3Client.GetKlines(symbol,
+                                                           interval,
+                                                           startTime: ConvertToUnixMilliseconds(i),
+                                                           endTime: ConvertToUnixMilliseconds(i.AddMonths(1)),
+                                                           limit: Convert.ToInt32(2.628e+6)))
+                                                    .SelectMany(s => new List<KlineDto>()
+                                                    {
+                                                        new()
+                                                        {
+                                                            OpenTime = DateTimeOffset.FromUnixTimeMilliseconds(s.ElementAt(0)).DateTime,
+                                                            OpenPrice = Convert.ToDouble(s.ElementAt(1)),
+                                                            HighPrice = Convert.ToDouble(s.ElementAt(2)),
+                                                            LowPrice = Convert.ToDouble(s.ElementAt(3)),
+                                                            ClosePrice = Convert.ToDouble(s.ElementAt(4)),
+                                                            Volume = Convert.ToDouble(s.ElementAt(5)),
+                                                            CloseTime = DateTimeOffset.FromUnixTimeMilliseconds(s.ElementAt(6)).DateTime,
+                                                            QuoteAssetVolume = Convert.ToDouble(s.ElementAt(7)),
+                                                            NumberOfTrades = s.ElementAt(8),
+                                                            TakerBuyBaseAssetVolume = Convert.ToDouble(s.ElementAt(9)),
+                                                            TakerBuyQuoteAssetVolume = Convert.ToDouble(s.ElementAt(10)),
+                                                        }
+                                                    });
     }
 }

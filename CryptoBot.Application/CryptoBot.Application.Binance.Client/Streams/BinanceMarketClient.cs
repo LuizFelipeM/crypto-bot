@@ -1,11 +1,11 @@
 using Binance.Spot;
 using CryptoBot.Application.Binance.Contract;
-using CryptoBot.Application.Binance.Contract.Interfaces;
+using CryptoBot.Application.Binance.Contract.Interfaces.Market;
 using Microsoft.Extensions.Logging;
 
 namespace CryptoBot.Application.Binance.Client.Streams;
 
-public class BinanceMarketClient : IBinanceMarketClient
+public class BinanceMarketClient // : IMarketClient
 {
     private readonly ILogger<BinanceMarketClient> _logger;
     private readonly BinanceConfig _config;

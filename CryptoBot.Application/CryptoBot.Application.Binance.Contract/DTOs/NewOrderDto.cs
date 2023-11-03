@@ -12,11 +12,11 @@ namespace CryptoBot.Application.Binance.Contract.DTOs;
 public class NewOrderDto
 {
     public required string Symbol { get; set; }
-    [JsonConverter(typeof(StructJsonConverter<Side>))]
+    [JsonConverter(typeof(StructPropertyNameJsonConverter<Side>))]
     public required Side Side { get; set; }
-    [JsonConverter(typeof(StructJsonConverter<OrderType>))]
+    [JsonConverter(typeof(StructPropertyNameJsonConverter<OrderType>))]
     public required OrderType Type { get; set; }
-    [JsonConverter(typeof(StructJsonConverter<TimeInForce>))]
+    [JsonConverter(typeof(StructPropertyNameJsonConverter<TimeInForce>))]
     public TimeInForce? TimeInForce { get; set; }
     public decimal? Quantity { get; set; }
     public decimal? QuoteOrderQty { get; set; }
@@ -27,7 +27,7 @@ public class NewOrderDto
     public decimal? StopPrice { get; set; }
     public decimal? TrailingDelta { get; set; }
     public decimal? IcebergQty { get; set; }
-    [JsonConverter(typeof(StructJsonConverter<NewOrderResponseType>))]
+    [JsonConverter(typeof(StructPropertyNameJsonConverter<NewOrderResponseType>))]
     public NewOrderResponseType? NewOrderRespType { get; set; }
     public long? RecvWindow { get; set; }
 }

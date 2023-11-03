@@ -15,7 +15,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\CryptoBot.CrossCutting\CryptoBot.CrossCutting.csproj" />
     <ProjectReference Include="..\CryptoBot.Application.Binance.Contract\CryptoBot.Application.Binance.Contract.csproj" />
-    <ProjectReference Include="..\..\CryptoBot.Domain\CryptoBot.Domain.csproj" />
   </ItemGroup>
 
 </Project>
