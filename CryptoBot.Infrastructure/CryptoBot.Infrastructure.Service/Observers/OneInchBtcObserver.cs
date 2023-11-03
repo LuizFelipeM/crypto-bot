@@ -4,7 +4,7 @@ using CryptoBot.Domain;
 namespace CryptoBot.Infrastructure.Service.Observers;
 
 [KlineSymbols(Symbol.BTC, Symbol.USDT)]
-public class OneInchBtcObserver : IObserver<Kline>
+public class OneInchBtcObserver : IObserver<KlineEvent>
 {
     public OneInchBtcObserver()
     {
@@ -20,7 +20,7 @@ public class OneInchBtcObserver : IObserver<Kline>
         throw new NotImplementedException();
     }
 
-    public void OnNext(Kline kline)
+    public void OnNext(KlineEvent kline)
     {
         throw new NotImplementedException();
     }
