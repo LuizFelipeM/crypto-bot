@@ -48,8 +48,8 @@ public class HistoricalService : IHistoricalService
 
     public async Task IngestKlines(string symbol, Interval interval, DateTime startTime, DateTime endTime)
     {
-        var i = TinyMapper.Map<Binance.Spot.Models.Interval>(interval);
-        var klines = await _binanceHistoricalClient.GetKlines(symbol, i, startTime, endTime);
+        // var i = TinyMapper.Map<Binance.Spot.Models.Interval>(interval);
+        var klines = await _binanceHistoricalClient.GetKlines(symbol, Binance.Spot.Models.Interval.ONE_MINUTE, startTime, endTime);
         var messages = klines.Split(250, Unit.Megabytes);
     }
 }

@@ -33,14 +33,17 @@ public class KlineObservable : IKlineObservable
             _klines.RemoveWhere(k => k.Symbol == kline.Symbol);
 
         if (_symbols.TryGetValue((kline.Symbol.ToUpperInvariant(), kline.Interval), out var observers))
-            foreach (var observer in observers)
-                observer.OnNext(kline);
+            observers.AsParallel()
+                .WithDegreeOfParallelism(50)
+                .ForAll(observer => observer.OnNext(kline));
     }
 
     private void OnKlineErrorReceived(Exception exception)
     {
-        foreach (var observer in _symbols.SelectMany(s => s.Value))
-            observer.OnError(exception);
+        _symbols.SelectMany(s => s.Value)
+            .AsParallel()
+            .WithDegreeOfParallelism(50)
+            .ForAll(observer => observer.OnError(exception));
     }
 
     private static KlineSymbolsAttribute GetSymbolsAttribute(IObserver<Kline> observer)

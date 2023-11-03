@@ -3,7 +3,7 @@ using CryptoBot.Domain;
 
 namespace CryptoBot.Infrastructure.Service.Observers;
 
-[KlineSymbols(Symbol.ONE_INCH, Symbol.BTC)]
+[KlineSymbols(Symbol.BTC, Symbol.USDT)]
 public class OneInchBtcObserver : IObserver<Kline>
 {
     public OneInchBtcObserver()

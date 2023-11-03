@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Binance.Spot.Models;
 using CryptoBot.Application.Binance.Contract.Interfaces;
 using CryptoBot.CrossCutting.DTOs;
@@ -44,18 +45,39 @@ public class BinanceHistoricalClient : IBinanceHistoricalClient
 
         var (startTimeMs, endTimeMs) = (ConvertToUnixMilliseconds(startTime), ConvertToUnixMilliseconds(endTime));
 
-        // var timer = new Stopwatch();
-        // timer.Start();
+        var timer = new Stopwatch();
+        timer.Start();
 
         // var ranges = new SortedList<long, long>();
-        // var stepsSize = GetIntervalStepsMilliseconds(interval, startTime, endTime);
-        // for (var i = startTimeMs; i < endTimeMs - stepsSize; i += stepsSize)
-        // {
-        //     ranges.Add(i, i + stepsSize);
-        // }
+        var klines = new List<KlineDto>();
+        var stepsSize = GetIntervalStepsMilliseconds(interval, startTime, endTime);
+        for (var i = startTimeMs; i < endTimeMs - stepsSize; i += stepsSize)
+        {
+            // ranges.Add(i, i + stepsSize);
+            var klinesList = await _binanceV3Client.GetKlines(symbol, interval, i, i + stepsSize);
+            klines.AddRange(
+                klinesList.SelectMany(s => new List<KlineDto>()
+                {
+                    new()
+                    {
+                        OpenTime = DateTimeOffset.FromUnixTimeMilliseconds(s.ElementAt(0)).DateTime,
+                        OpenPrice = Convert.ToDouble(s.ElementAt(1)),
+                        HighPrice = Convert.ToDouble(s.ElementAt(2)),
+                        LowPrice = Convert.ToDouble(s.ElementAt(3)),
+                        ClosePrice = Convert.ToDouble(s.ElementAt(4)),
+                        Volume = Convert.ToDouble(s.ElementAt(5)),
+                        CloseTime = DateTimeOffset.FromUnixTimeMilliseconds(s.ElementAt(6)).DateTime,
+                        QuoteAssetVolume = Convert.ToDouble(s.ElementAt(7)),
+                        NumberOfTrades = s.ElementAt(8),
+                        TakerBuyBaseAssetVolume = Convert.ToDouble(s.ElementAt(9)),
+                        TakerBuyQuoteAssetVolume = Convert.ToDouble(s.ElementAt(10)),
+                    }
+                }));
+            Thread.Sleep(1000);
+        }
 
-        // timer.Stop();
-        // _logger.LogInformation($"Create range time elapsed = {timer.Elapsed}");
+        timer.Stop();
+        _logger.LogInformation($"Create range time elapsed = {timer.Elapsed}");
 
         // timer.Restart();
 
@@ -71,11 +93,7 @@ public class BinanceHistoricalClient : IBinanceHistoricalClient
 
         // timer.Restart();
 
-        var limit = Convert.ToInt32(2.628e+6);
-        var test = await _binanceV3Client.GetKlines(symbol, interval, startTimeMs, endTimeMs, limit: limit);
-
         // var requestBatchSize = 25;
-        var klines = new List<KlineDto>();
         // for (int i = 0; i < requests.Count; i += requestBatchSize)
         // {
         //     var klinesList = (await Task.WhenAll(requests.Skip(i).Take(requestBatchSize).ToArray())).SelectMany(s => s).ToList();
