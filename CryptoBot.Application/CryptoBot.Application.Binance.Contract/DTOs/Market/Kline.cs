@@ -1,5 +1,4 @@
-﻿using Binance.Spot.Models;
-using CryptoBot.CrossCutting.JsonConverters;
+﻿using CryptoBot.CrossCutting;
 using Newtonsoft.Json;
 
 namespace CryptoBot.Application.Binance.Contract;
@@ -10,13 +9,15 @@ public class Kline
     /// Kline start time
     /// </summary>
     [JsonProperty("t")]
-    public required long OpenTime { get; set; }
+    [JsonConverter(typeof(MillisecondsDateTimeJsonConverter))]
+    public required DateTime OpenTime { get; set; }
 
     /// <summary>
     /// Kline close time
     /// </summary>
     [JsonProperty("T")]
-    public required long CloseTime { get; set; }
+    [JsonConverter(typeof(MillisecondsDateTimeJsonConverter))]
+    public required DateTime CloseTime { get; set; }
 
     /// <summary>
     /// Symbol

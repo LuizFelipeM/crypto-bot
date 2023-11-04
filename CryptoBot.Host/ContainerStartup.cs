@@ -9,21 +9,18 @@ using CryptoBot.Application.LavinMQ.Client;
 using CryptoBot.Application.LavinMQ.Contract.Configs;
 using CryptoBot.Application.LavinMQ.Contract.Interfaces;
 using CryptoBot.Domain;
-using CryptoBot.Domain.Interfaces.Repositories;
-using CryptoBot.Domain.Interfaces.Services;
 using CryptoBot.Domain.Interfaces.Services.Observables;
-using CryptoBot.Domain.Models;
 using CryptoBot.Host.Configs.Entities;
 using CryptoBot.Infrastructure.Job;
 using CryptoBot.Infrastructure.Repository.MySql;
 using CryptoBot.Infrastructure.Repository.MySql.Contexts;
-using CryptoBot.Infrastructure.Repository.SQLite.Repositories;
-using CryptoBot.Infrastructure.Service.Concretes.Kline;
+using CryptoBot.Infrastructure.Service;
+using CryptoBot.Infrastructure.Service.Consumers.Kline;
 using CryptoBot.Infrastructure.Service.Contracts;
-using CryptoBot.Infrastructure.Service.Historical;
 using CryptoBot.Infrastructure.Service.Historical.Producer;
 using CryptoBot.Infrastructure.Service.Ingestor;
 using CryptoBot.Infrastructure.Service.Observables;
+using CryptoBot.Infrastructure.Service.Observers;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
 using SQLite;
@@ -79,29 +76,24 @@ public static class ContainerStartup
     public static void RegisterServices(ConfigurationManager configuration, IServiceCollection services)
     {
         var binanceConfig = configuration.GetSection("Binance").Get<BinanceConfig>() ?? new();
-        services.AddSingleton(binanceConfig);
-        services.AddSingleton<IKlineClient, KlineClient>();
-        services.AddSingleton<IKlineObservable, KlineObservable>();
-        services.AddSingleton<IBinanceSpotClient, BinanceSpotClient>();
-        services.AddSingleton<IBinanceHistoricalClient, BinanceHistoricalClient>();
-        services.AddSingleton<IHistoricalService, HistoricalService>();
+        services.AddSingleton(binanceConfig)
+                .AddSingleton<IBinanceSpotClient, BinanceSpotClient>()
+                .AddSingleton<IBinanceHistoricalClient, BinanceHistoricalClient>();
+
+        services.AddSingleton<IKlineClient, KlineClient>()
+                .AddSingleton<IKlineObservable, KlineObservable>()
+                .AddScoped<IKlineService, KlineService>();
     }
 
     public static void RegisterRepositories(ConfigurationManager configuration, IServiceCollection services)
     {
-        var connection = new SQLiteAsyncConnection(configuration.GetConnectionString("LiveMarket"));
-        var types = GetTypesWithCustomAttributes<TableAttribute, Order>();
-        connection.CreateTablesAsync(types: types.ToArray()).Wait();
-        services.AddSingleton(connection);
-
         services.AddDbContext<MySqlDbContext>(options =>
         {
             var mySqlConfig = configuration.GetSection("MySql").Get<MySqlConfig>();
             options.UseMySql(mySqlConfig.ConnectionString, ServerVersion.AutoDetect(mySqlConfig.ConnectionString));
         });
 
-        services.AddTransient<IOrderRepository, OrderRepository>();
-        services.AddScoped<IKlineRepository, KlineRepository>();
+        services.AddTransient<IKlineRepository, KlineRepository>();
     }
 
     public static void RegisterJobs(ConfigurationManager configuration, IServiceCollection services)

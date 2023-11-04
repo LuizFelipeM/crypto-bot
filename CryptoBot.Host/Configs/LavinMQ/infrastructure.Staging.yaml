@@ -1,0 +1,20 @@
+Exchanges:
+  Ingestor:
+    ForceDelete: true
+    Type: "direct"
+
+Queues:
+  Kline:
+    ForceDelete: true
+    Features:
+      DeadLetterExchange: "Ingestor"
+      DeadLetterRoutingKey: "kline.dlq"
+    Bindings:
+      - ExchangeName: "Ingestor"
+        RoutingKey: "kline"
+
+  Kline.dlq:
+    ForceDelete: true
+    Bindings:
+      - ExchangeName: "Ingestor"
+        RoutingKey: "kline.dlq"

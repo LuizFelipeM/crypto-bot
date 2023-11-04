@@ -1,0 +1,3 @@
+KlineJob:
+  Cron: "0/1 * * * * ?"
+  Active: false

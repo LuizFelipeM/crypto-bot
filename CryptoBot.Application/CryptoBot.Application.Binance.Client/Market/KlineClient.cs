@@ -3,6 +3,7 @@ using Binance.Spot.Models;
 using CryptoBot.Application.Binance.Client.Mappers;
 using CryptoBot.Application.Binance.Contract.DTOs.Streams;
 using CryptoBot.Domain;
+using Microsoft.Extensions.Logging;
 using Nelibur.ObjectMapper;
 using Newtonsoft.Json;
 
@@ -11,11 +12,17 @@ namespace CryptoBot.Application.Binance.Client.Market;
 public class KlineClient : IKlineClient
 {
     private readonly Dictionary<string, HashSet<Interval>> _watchingSymbols = new();
+    private readonly ILogger<KlineClient> _logger;
     private MarketDataWebSocket? _webSocket;
 
     public event KlineReceived? OnKlineReceived;
     public event KlineErrorReceived? OnKlineErrorReceived;
     public event Disconnection? OnDisconnection;
+
+    public KlineClient(ILogger<KlineClient> logger)
+    {
+        _logger = logger;
+    }
 
     private IEnumerable<string> GetStreams()
     {
@@ -31,7 +38,7 @@ public class KlineClient : IKlineClient
         var streams = GetStreams().ToArray();
         _webSocket = new MarketDataWebSocket(streams: streams.ToArray());
 
-        _webSocket.OnMessageReceived(async (data) =>
+        _webSocket.OnMessageReceived(async (data) => await Task.Run(() =>
         {
             Stream<KlineStream>? payload = null;
 
@@ -57,10 +64,11 @@ public class KlineClient : IKlineClient
                     callback(klineEvent);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.LogError(ex, $"OnMessageReceived error while calling KlineReceived event");
             }
-        }, CancellationToken.None);
+        }), CancellationToken.None);
         await _webSocket.ConnectAsync(CancellationToken.None);
     }
 

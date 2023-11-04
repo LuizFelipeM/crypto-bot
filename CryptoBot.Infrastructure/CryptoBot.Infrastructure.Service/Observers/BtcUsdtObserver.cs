@@ -8,13 +8,13 @@ using Newtonsoft.Json.Linq;
 
 namespace CryptoBot.Infrastructure.Service.Observers;
 
-[KlineSymbols(Symbol.ONE_INCH, Symbol.USDT)]
-public class OneInchUsdtObserver : IObserver<KlineEvent>
+[KlineSymbols(Symbol.BTC, Symbol.USDT)]
+public class BtcUsdtObserver : IObserver<KlineEvent>
 {
     private readonly ILogger<IObserver<KlineEvent>> _logger;
     private readonly IServiceScopeFactory _serviceScopeFactory;
 
-    public OneInchUsdtObserver(
+    public BtcUsdtObserver(
         ILogger<IObserver<KlineEvent>> logger,
         IServiceScopeFactory serviceScopeFactory)
     {

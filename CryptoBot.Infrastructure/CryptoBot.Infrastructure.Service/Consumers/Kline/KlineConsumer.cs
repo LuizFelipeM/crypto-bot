@@ -4,7 +4,7 @@ using CryptoBot.Application.LavinMQ.Contract.Interfaces;
 using CryptoBot.Infrastructure.Service.Contracts;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CryptoBot.Infrastructure.Service.Concretes.Kline;
+namespace CryptoBot.Infrastructure.Service.Consumers.Kline;
 
 public class KlineConsumer : LavinMQConsumer<IEnumerable<KlineContract>>, ILavinMQConsumer<IEnumerable<KlineContract>>
 {

@@ -4,6 +4,7 @@ namespace CryptoBot.Domain.Interfaces.Services.Observables;
 
 public interface IKlineObservable
 {
-    Task<IDisposable> Subscribe(IObserver<KlineEvent> observer, Interval interval);
-    Task<IEnumerable<IDisposable>> Subscribe(IEnumerable<IObserver<KlineEvent>> observers, Interval interval);
+    Task<IDisposable> Subscribe(Interval interval, IObserver<KlineEvent> observer);
+    Task<IEnumerable<IDisposable>> Subscribe(Interval interval, params IObserver<KlineEvent>[] observers);
+    Task<IEnumerable<IDisposable>> Subscribe(Interval interval, IEnumerable<IObserver<KlineEvent>> observers);
 }

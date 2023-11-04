@@ -2,11 +2,6 @@
 
 namespace CryptoBot.Domain;
 
-public interface IKlineRepository
+public interface IKlineRepository : IRepository<KlineEntity, long>
 {
-    KlineEntity? Find(long id);
-    IQueryable<KlineEntity> GetAll();
-    void Insert(KlineEntity entity);
-    void Update(KlineEntity entity);
-    void Remove(KlineEntity entity);
 }

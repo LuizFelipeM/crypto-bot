@@ -2,8 +2,8 @@
 
 public class KlineEvent
 {
-    public required long OpenTime { get; set; }
-    public required long CloseTime { get; set; }
+    public required DateTime OpenTime { get; set; }
+    public required DateTime CloseTime { get; set; }
     public required string Symbol { get; set; }
     public required string Interval { get; set; }
     public long FirstTradeId { get; set; }

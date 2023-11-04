@@ -13,5 +13,6 @@ public static class MapperStartup
     {
         TinyMapper.Bind<KlineDto, KlineContract>();
         TinyMapper.Bind<Kline, KlineEvent>();
+        TinyMapper.Bind<KlineEvent, KlineEntity>();
     }
 }

@@ -2,7 +2,7 @@ using CryptoBot.Application.LavinMQ.Client;
 using CryptoBot.Application.LavinMQ.Contract.Interfaces;
 using CryptoBot.Infrastructure.Service.Contracts;
 
-namespace CryptoBot.Infrastructure.Service.Concretes.Kline;
+namespace CryptoBot.Infrastructure.Service.Consumers.Kline;
 
 public class KlineReceiveConsumer : LavinMQReceiveConsumer<IEnumerable<KlineContract>>, ILavinMQReceiveConsumer<IEnumerable<KlineContract>>
 {
