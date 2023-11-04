@@ -1,6 +1,7 @@
 using CryptoBot.Application.Binance.Contract;
 using CryptoBot.CrossCutting.DTOs;
 using CryptoBot.Domain;
+using CryptoBot.Domain.Models.Entities;
 using CryptoBot.Infrastructure.Service.Contracts;
 using Nelibur.ObjectMapper;
 

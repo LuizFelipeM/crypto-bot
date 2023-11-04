@@ -15,6 +15,8 @@ using CryptoBot.Domain.Interfaces.Services.Observables;
 using CryptoBot.Domain.Models;
 using CryptoBot.Host.Configs.Entities;
 using CryptoBot.Infrastructure.Job;
+using CryptoBot.Infrastructure.Repository.MySql;
+using CryptoBot.Infrastructure.Repository.MySql.Contexts;
 using CryptoBot.Infrastructure.Repository.SQLite.Repositories;
 using CryptoBot.Infrastructure.Service.Concretes.Kline;
 using CryptoBot.Infrastructure.Service.Contracts;
@@ -22,6 +24,7 @@ using CryptoBot.Infrastructure.Service.Historical;
 using CryptoBot.Infrastructure.Service.Historical.Producer;
 using CryptoBot.Infrastructure.Service.Ingestor;
 using CryptoBot.Infrastructure.Service.Observables;
+using Microsoft.EntityFrameworkCore;
 using Quartz;
 using SQLite;
 using YamlDotNet.Serialization;
@@ -89,9 +92,16 @@ public static class ContainerStartup
         var connection = new SQLiteAsyncConnection(configuration.GetConnectionString("LiveMarket"));
         var types = GetTypesWithCustomAttributes<TableAttribute, Order>();
         connection.CreateTablesAsync(types: types.ToArray()).Wait();
-
         services.AddSingleton(connection);
+
+        services.AddDbContext<MySqlDbContext>(options =>
+        {
+            var mySqlConfig = configuration.GetSection("MySql").Get<MySqlConfig>();
+            options.UseMySql(mySqlConfig.ConnectionString, ServerVersion.AutoDetect(mySqlConfig.ConnectionString));
+        });
+
         services.AddTransient<IOrderRepository, OrderRepository>();
+        services.AddScoped<IKlineRepository, KlineRepository>();
     }
 
     public static void RegisterJobs(ConfigurationManager configuration, IServiceCollection services)

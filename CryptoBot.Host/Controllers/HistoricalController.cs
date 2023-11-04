@@ -1,7 +1,5 @@
-using Binance.Spot.Models;
 using CryptoBot.CrossCutting.DTOs;
 using CryptoBot.Domain.Interfaces.Services;
-using CryptoBot.Domain.Models.Types;
 using Microsoft.AspNetCore.Mvc;
 using Interval = CryptoBot.Domain.Models.Types.Interval;
 
@@ -21,12 +19,6 @@ public class HistoricalController : ControllerBase
         _logger = logger;
         _historicalService = historicalService;
     }
-
-    [HttpGet("subscribe/btc")]
-    public void SubscribeBtc() => _historicalService.SubscribeBtc();
-
-    [HttpGet("subscribe/usdt")]
-    public void SubscribeUsdt() => _historicalService.SubscribeUsdt();
 
     [HttpGet("klines")]
     public IEnumerable<KlineDto> GetKlines([FromQuery] string symbol, [FromQuery] int startYear, [FromQuery] int startMonth, [FromQuery] int startDay, [FromQuery] int endYear, [FromQuery] int endMonth, [FromQuery] int endDay)
