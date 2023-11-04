@@ -4,6 +4,7 @@ namespace CryptoBot.Domain;
 
 public interface IKlineService : IService<KlineEntity, long>
 {
-    Task StartTracking();
-    void StopTrackint();
+    Task StartTrackingBtc();
+    Task StartTrackingUsdt();
+    void StopTracking();
 }

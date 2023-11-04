@@ -18,9 +18,12 @@ public class KlineController : ControllerBase
         _klineService = klineService;
     }
 
-    [HttpPost("tracking/start")]
-    public void StartTracking() => _klineService.StartTracking();
+    [HttpPost("tracking/start/btc")]
+    public void StartTrackingBtc() => _klineService.StartTrackingBtc();
+
+    [HttpPost("tracking/start/usdt")]
+    public void StartTrackingUsdt() => _klineService.StartTrackingUsdt();
 
     [HttpPost("tracking/stop")]
-    public void StopTrackint() => _klineService.StopTrackint();
+    public void StopTrackint() => _klineService.StopTracking();
 }

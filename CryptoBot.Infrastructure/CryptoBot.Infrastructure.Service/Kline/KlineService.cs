@@ -29,16 +29,15 @@ public class KlineService : Service<KlineEntity, long>, IKlineService
         _serviceScopeFactory = serviceScopeFactory;
     }
 
-    public async Task StartTracking()
+    public async Task StartTrackingBtc()
     {
         try
         {
             var scope = _serviceScopeFactory.CreateScope();
             var logger = scope.ServiceProvider.GetRequiredService<ILogger<IObserver<KlineEvent>>>();
-            var unsubscribers = await _klineObservable.Subscribe(Interval.ONE_MINUTE,
-                                                                 new BtcUsdtObserver(logger, _serviceScopeFactory),
-                                                                 new OneInchUsdtObserver(logger, _serviceScopeFactory));
-            _unsubscribers.AddRange(unsubscribers);
+            var unsubscriber = await _klineObservable.Subscribe(Interval.ONE_MINUTE,
+                                                                new BtcUsdtObserver(logger, _serviceScopeFactory));
+            _unsubscribers.Add(unsubscriber);
         }
         catch (Exception ex)
         {
@@ -47,7 +46,25 @@ public class KlineService : Service<KlineEntity, long>, IKlineService
         }
     }
 
-    public void StopTrackint()
+
+    public async Task StartTrackingUsdt()
+    {
+        try
+        {
+            var scope = _serviceScopeFactory.CreateScope();
+            var logger = scope.ServiceProvider.GetRequiredService<ILogger<IObserver<KlineEvent>>>();
+            var unsubscriber = await _klineObservable.Subscribe(Interval.ONE_MINUTE,
+                                                                new OneInchUsdtObserver(logger, _serviceScopeFactory));
+            _unsubscribers.Add(unsubscriber);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "StartTracking subscribe failed");
+            throw;
+        }
+    }
+
+    public void StopTracking()
     {
         try
         {
