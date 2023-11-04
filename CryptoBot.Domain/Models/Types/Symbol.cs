@@ -1,8 +1,15 @@
-﻿namespace CryptoBot.Domain;
+﻿using System.ComponentModel;
 
-public struct Symbol
+namespace CryptoBot.Domain;
+
+public enum Symbol
 {
-    public const string USDT = "USDT";
-    public const string BTC = "BTC";
-    public const string ONE_INCH = "1INCH";
+    [Description("USDT")]
+    USDT,
+
+    [Description("BTC")]
+    BTC,
+
+    [Description("1INCH")]
+    ONE_INCH,
 }

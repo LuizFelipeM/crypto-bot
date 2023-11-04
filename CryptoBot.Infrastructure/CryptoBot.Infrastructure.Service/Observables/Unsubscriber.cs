@@ -1,4 +1,4 @@
-﻿namespace CryptoBot.Application.Binance.Client;
+﻿namespace CryptoBot.Infrastructure.Service.Observables;
 
 internal sealed class Unsubscriber<T> : IDisposable
     where T : class

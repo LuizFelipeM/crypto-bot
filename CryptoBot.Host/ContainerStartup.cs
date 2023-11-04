@@ -1,27 +1,30 @@
 using System.Configuration;
 using System.Reflection;
-using CryptoBot.Application.Binance.Client;
 using CryptoBot.Application.Binance.Client.API;
 using CryptoBot.Application.Binance.Client.Historical;
 using CryptoBot.Application.Binance.Client.Market;
-using CryptoBot.Application.Binance.Client.Streams;
 using CryptoBot.Application.Binance.Contract;
 using CryptoBot.Application.Binance.Contract.Interfaces;
-using CryptoBot.Application.Binance.Contract.Interfaces.Market;
 using CryptoBot.Application.LavinMQ.Client;
 using CryptoBot.Application.LavinMQ.Contract.Configs;
 using CryptoBot.Application.LavinMQ.Contract.Interfaces;
+using CryptoBot.Domain;
 using CryptoBot.Domain.Interfaces.Repositories;
 using CryptoBot.Domain.Interfaces.Services;
+using CryptoBot.Domain.Interfaces.Services.Observables;
 using CryptoBot.Domain.Models;
 using CryptoBot.Host.Configs.Entities;
 using CryptoBot.Infrastructure.Job;
+using CryptoBot.Infrastructure.Repository.MySql;
+using CryptoBot.Infrastructure.Repository.MySql.Contexts;
 using CryptoBot.Infrastructure.Repository.SQLite.Repositories;
 using CryptoBot.Infrastructure.Service.Concretes.Kline;
 using CryptoBot.Infrastructure.Service.Contracts;
 using CryptoBot.Infrastructure.Service.Historical;
 using CryptoBot.Infrastructure.Service.Historical.Producer;
 using CryptoBot.Infrastructure.Service.Ingestor;
+using CryptoBot.Infrastructure.Service.Observables;
+using Microsoft.EntityFrameworkCore;
 using Quartz;
 using SQLite;
 using YamlDotNet.Serialization;
@@ -77,7 +80,8 @@ public static class ContainerStartup
     {
         var binanceConfig = configuration.GetSection("Binance").Get<BinanceConfig>() ?? new();
         services.AddSingleton(binanceConfig);
-        services.AddSingleton<IKlineObservable>(new KlineObservable());
+        services.AddSingleton<IKlineClient, KlineClient>();
+        services.AddSingleton<IKlineObservable, KlineObservable>();
         services.AddSingleton<IBinanceSpotClient, BinanceSpotClient>();
         services.AddSingleton<IBinanceHistoricalClient, BinanceHistoricalClient>();
         services.AddSingleton<IHistoricalService, HistoricalService>();
@@ -88,9 +92,16 @@ public static class ContainerStartup
         var connection = new SQLiteAsyncConnection(configuration.GetConnectionString("LiveMarket"));
         var types = GetTypesWithCustomAttributes<TableAttribute, Order>();
         connection.CreateTablesAsync(types: types.ToArray()).Wait();
-
         services.AddSingleton(connection);
+
+        services.AddDbContext<MySqlDbContext>(options =>
+        {
+            var mySqlConfig = configuration.GetSection("MySql").Get<MySqlConfig>();
+            options.UseMySql(mySqlConfig.ConnectionString, ServerVersion.AutoDetect(mySqlConfig.ConnectionString));
+        });
+
         services.AddTransient<IOrderRepository, OrderRepository>();
+        services.AddScoped<IKlineRepository, KlineRepository>();
     }
 
     public static void RegisterJobs(ConfigurationManager configuration, IServiceCollection services)

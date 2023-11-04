@@ -1,24 +1,21 @@
 ﻿using Binance.Spot;
 using Binance.Spot.Models;
-using CryptoBot.Application.Binance.Contract;
+using CryptoBot.Application.Binance.Client.Mappers;
 using CryptoBot.Application.Binance.Contract.DTOs.Streams;
+using CryptoBot.Domain;
+using Nelibur.ObjectMapper;
 using Newtonsoft.Json;
 
 namespace CryptoBot.Application.Binance.Client.Market;
 
-internal class KlineClient
+public class KlineClient : IKlineClient
 {
     private readonly Dictionary<string, HashSet<Interval>> _watchingSymbols = new();
     private MarketDataWebSocket? _webSocket;
 
-    internal delegate void KlineReceived(Kline kline);
-    internal event KlineReceived? OnKlineReceived;
-
-    internal delegate void KlineErrorReceived(Exception exception);
-    internal event KlineErrorReceived? OnKlineErrorReceived;
-
-    internal delegate void Disconnection();
-    internal event Disconnection? OnDisconnection;
+    public event KlineReceived? OnKlineReceived;
+    public event KlineErrorReceived? OnKlineErrorReceived;
+    public event Disconnection? OnDisconnection;
 
     private IEnumerable<string> GetStreams()
     {
@@ -56,7 +53,8 @@ internal class KlineClient
                 if (OnKlineReceived != null && payload != null)
                 {
                     KlineReceived callback = new(OnKlineReceived);
-                    callback(payload.Data.Kline);
+                    var klineEvent = TinyMapper.Map<KlineEvent>(payload.Data.Kline);
+                    callback(klineEvent);
                 }
             }
             catch (Exception)
@@ -87,19 +85,19 @@ internal class KlineClient
             return _watchingSymbols.TryAdd(symbol, new() { interval });
     }
 
-    public async Task Watch(string[] symbols, Interval interval)
+    public async Task Watch(string[] symbols, Domain.Models.Types.Interval interval)
     {
         var reconnect = false;
 
         foreach (var symbol in symbols)
-            reconnect = AddToWatchingSymbols(symbol.ToLowerInvariant(), interval);
+            reconnect = AddToWatchingSymbols(symbol.ToLowerInvariant(), Mapper.Map(interval));
 
         if (reconnect) await Connect();
     }
 
-    public async Task Watch(string symbol, Interval interval)
+    public async Task Watch(string symbol, Domain.Models.Types.Interval interval)
     {
-        if (AddToWatchingSymbols(symbol.ToLowerInvariant(), interval))
+        if (AddToWatchingSymbols(symbol.ToLowerInvariant(), Mapper.Map(interval)))
             await Connect();
     }
 }

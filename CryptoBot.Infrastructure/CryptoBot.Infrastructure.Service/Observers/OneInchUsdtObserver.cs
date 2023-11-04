@@ -4,7 +4,7 @@ using CryptoBot.Domain;
 namespace CryptoBot.Infrastructure.Service.Observers;
 
 [KlineSymbols(Symbol.ONE_INCH, Symbol.USDT)]
-public class OneInchUsdtObserver : IObserver<Kline>
+public class OneInchUsdtObserver : IObserver<KlineEvent>
 {
     public void OnCompleted()
     {
@@ -16,7 +16,7 @@ public class OneInchUsdtObserver : IObserver<Kline>
         throw new NotImplementedException();
     }
 
-    public void OnNext(Kline value)
+    public void OnNext(KlineEvent value)
     {
         throw new NotImplementedException();
     }

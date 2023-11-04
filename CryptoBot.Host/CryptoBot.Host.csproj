@@ -22,6 +22,7 @@
     <ProjectReference Include="..\CryptoBot.Infrastructure\CryptoBot.Infrastructure.Service\CryptoBot.Infrastructure.Service.csproj" />
     <ProjectReference Include="..\CryptoBot.Infrastructure\CryptoBot.Infrastructure.Repository\CryptoBot.Infrastructure.Repository.SQLite\CryptoBot.Infrastructure.Repository.SQLite.csproj" />
     <ProjectReference Include="..\CryptoBot.Infrastructure\CryptoBot.Infrastructure.Job\CryptoBot.Infrastructure.Job.csproj" />
+    <ProjectReference Include="..\CryptoBot.Infrastructure\CryptoBot.Infrastructure.Repository\CryptoBot.Infrastructure.Repository.MySql\CryptoBot.Infrastructure.Repository.MySql.csproj" />
   </ItemGroup>
 
 </Project>

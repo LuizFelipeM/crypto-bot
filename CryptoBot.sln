@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoBot.Infrastructure.Se
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoBot.Infrastructure.Job", "CryptoBot.Infrastructure\CryptoBot.Infrastructure.Job\CryptoBot.Infrastructure.Job.csproj", "{91A25978-2C77-4695-99FC-629633ECCC36}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoBot.Infrastructure.Repository.MySql", "CryptoBot.Infrastructure\CryptoBot.Infrastructure.Repository\CryptoBot.Infrastructure.Repository.MySql\CryptoBot.Infrastructure.Repository.MySql.csproj", "{8BA311BC-CF08-403B-A18E-4F981C255A20}"
+EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -162,6 +164,18 @@ Global
 		{91A25978-2C77-4695-99FC-629633ECCC36}.Release|x64.Build.0 = Release|Any CPU
 		{91A25978-2C77-4695-99FC-629633ECCC36}.Release|x86.ActiveCfg = Release|Any CPU
 		{91A25978-2C77-4695-99FC-629633ECCC36}.Release|x86.Build.0 = Release|Any CPU
+		{8BA311BC-CF08-403B-A18E-4F981C255A20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BA311BC-CF08-403B-A18E-4F981C255A20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BA311BC-CF08-403B-A18E-4F981C255A20}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8BA311BC-CF08-403B-A18E-4F981C255A20}.Debug|x64.Build.0 = Debug|Any CPU
+		{8BA311BC-CF08-403B-A18E-4F981C255A20}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8BA311BC-CF08-403B-A18E-4F981C255A20}.Debug|x86.Build.0 = Debug|Any CPU
+		{8BA311BC-CF08-403B-A18E-4F981C255A20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BA311BC-CF08-403B-A18E-4F981C255A20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BA311BC-CF08-403B-A18E-4F981C255A20}.Release|x64.ActiveCfg = Release|Any CPU
+		{8BA311BC-CF08-403B-A18E-4F981C255A20}.Release|x64.Build.0 = Release|Any CPU
+		{8BA311BC-CF08-403B-A18E-4F981C255A20}.Release|x86.ActiveCfg = Release|Any CPU
+		{8BA311BC-CF08-403B-A18E-4F981C255A20}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{71496DE3-FD80-4098-9D60-F8B1824C6CC5} = {DF3CF71D-DB58-45F1-990C-FCC8F0D7788E}
@@ -172,5 +186,6 @@ Global
 		{D3328EB9-125E-448B-8463-75E458B2C52E} = {51B3297F-82DC-4C95-8180-22846BC74378}
 		{3943A082-ED6D-472E-80ED-0B7CF60CD02C} = {7D125A26-5B95-4764-B87D-57FF24840E7A}
 		{91A25978-2C77-4695-99FC-629633ECCC36} = {7D125A26-5B95-4764-B87D-57FF24840E7A}
+		{8BA311BC-CF08-403B-A18E-4F981C255A20} = {51B3297F-82DC-4C95-8180-22846BC74378}
 	EndGlobalSection
 EndGlobal

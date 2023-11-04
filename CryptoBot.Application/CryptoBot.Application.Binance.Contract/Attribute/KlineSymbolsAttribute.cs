@@ -1,13 +1,16 @@
-﻿namespace CryptoBot.Application.Binance.Contract;
+﻿using CryptoBot.Domain;
+using CryptoBot.CrossCutting.Utils;
+
+namespace CryptoBot.Application.Binance.Contract;
 
 [AttributeUsage(AttributeTargets.Class)]
 public class KlineSymbolsAttribute : Attribute
 {
-    public string BaseSymbol { get; private set; }
-    public string QuoteSymbol { get; private set; }
-    public string Symbol => BaseSymbol + QuoteSymbol;
+    public Symbol BaseSymbol { get; private set; }
+    public Symbol QuoteSymbol { get; private set; }
+    public string AggregatedSymbols => BaseSymbol.GetDescription() + QuoteSymbol.GetDescription();
 
-    public KlineSymbolsAttribute(string baseSymbol, string quoteSymbol)
+    public KlineSymbolsAttribute(Symbol baseSymbol, Symbol quoteSymbol)
     {
         BaseSymbol = baseSymbol;
         QuoteSymbol = quoteSymbol;

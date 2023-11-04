@@ -1,14 +1,17 @@
+using CryptoBot.Application.Binance.Contract;
 using CryptoBot.CrossCutting.DTOs;
+using CryptoBot.Domain;
+using CryptoBot.Domain.Models.Entities;
 using CryptoBot.Infrastructure.Service.Contracts;
 using Nelibur.ObjectMapper;
 
-namespace CryptoBot.Infrastructure.Service.Mappers;
+namespace CryptoBot.Host.Mappers;
 
 public static class MapperStartup
 {
     public static void RegisterMappers()
     {
         TinyMapper.Bind<KlineDto, KlineContract>();
-        TinyMapper.Bind<Domain.Models.Types.Interval, Binance.Spot.Models.Interval>();
+        TinyMapper.Bind<Kline, KlineEvent>();
     }
 }

@@ -1,10 +1,9 @@
-using CryptoBot.Application.Binance.Client.Streams;
-using CryptoBot.Application.Binance.Contract;
 using CryptoBot.Application.Binance.Contract.Interfaces;
 using CryptoBot.CrossCutting.DTOs;
 using CryptoBot.CrossCutting.Enums;
 using CryptoBot.CrossCutting.Utils;
 using CryptoBot.Domain.Interfaces.Services;
+using CryptoBot.Domain.Interfaces.Services.Observables;
 using CryptoBot.Infrastructure.Service.Contracts;
 using CryptoBot.Infrastructure.Service.Ingestor;
 using CryptoBot.Infrastructure.Service.Observers;
@@ -35,10 +34,10 @@ public class HistoricalService : IHistoricalService
     }
 
     public void SubscribeBtc() => _klineObservable.Subscribe(new OneInchBtcObserver(),
-                                                             Binance.Spot.Models.Interval.ONE_MINUTE);
+                                                             Interval.ONE_MINUTE);
 
     public void SubscribeUsdt() => _klineObservable.Subscribe(new OneInchUsdtObserver(),
-                                                              Binance.Spot.Models.Interval.ONE_MINUTE);
+                                                              Interval.ONE_MINUTE);
 
     public async Task<IEnumerable<KlineDto>> GetKlines(string symbol, Interval interval, DateTime startTime, DateTime endTime) =>
         await _binanceHistoricalClient.GetKlines(symbol, TinyMapper.Map<Binance.Spot.Models.Interval>(interval), startTime, endTime);
