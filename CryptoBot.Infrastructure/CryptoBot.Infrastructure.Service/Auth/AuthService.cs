@@ -30,28 +30,16 @@ public class AuthService : IAuthService
         var token = new JwtSecurityToken(claims: claims,
                                          expires: DateTime.UtcNow.AddDays(1),
                                          signingCredentials: cred);
-        var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-        return jwt;
-        // if (!string.IsNullOrEmpty(user.Role)) claims.Add(new(ClaimTypes.Role, user.Role.ToString()));
-
-        // var tokenDescriptor = new SecurityTokenDescriptor
-        // {
-        //     Subject = new ClaimsIdentity(claims),
-        //     Expires = DateTime.UtcNow.AddHours(2),
-        //     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(_jwtConfig.SecretBytes),
-        //                                                 SecurityAlgorithms.HmacSha256Signature)
-        // };
-        // var token = tokenHandler.CreateToken(tokenDescriptor);
-        // return tokenHandler.WriteToken(token);
+        return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
     public string Authenticate(string userName, string password)
     {
         var user = _userRepository.Find(userName)
-                   ?? throw new NoNullAllowedException("Usuário inválidos");
+                   ?? throw new Exception("Invalid user");
 
         if (!Argon2.Verify(user.PasswordHash, password))
-            throw new Exception("Senha inválida");
+            throw new Exception("Invalid password");
 
         return GenerateToken(user);
     }
