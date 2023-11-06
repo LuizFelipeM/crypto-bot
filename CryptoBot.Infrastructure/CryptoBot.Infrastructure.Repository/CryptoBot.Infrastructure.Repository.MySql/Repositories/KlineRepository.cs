@@ -9,7 +9,7 @@ public class KlineRepository : EFRepository<KlineEntity, long, MySqlDbContext>, 
 {
 
     public KlineRepository(MySqlDbContext dbContext) : base(dbContext,
-                                                            x => x.Kline,
+                                                            x => x.Klines,
                                                             k => k.Id)
     {
     }

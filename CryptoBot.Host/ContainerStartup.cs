@@ -15,15 +15,15 @@ using CryptoBot.Infrastructure.Job;
 using CryptoBot.Infrastructure.Repository.MySql;
 using CryptoBot.Infrastructure.Repository.MySql.Contexts;
 using CryptoBot.Infrastructure.Service;
+using CryptoBot.Infrastructure.Service.Auth;
 using CryptoBot.Infrastructure.Service.Consumers.Kline;
 using CryptoBot.Infrastructure.Service.Contracts;
 using CryptoBot.Infrastructure.Service.Historical.Producer;
 using CryptoBot.Infrastructure.Service.Ingestor;
 using CryptoBot.Infrastructure.Service.Observables;
-using CryptoBot.Infrastructure.Service.Observers;
+using CryptoBot.Infrastructure.Service.User;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
-using SQLite;
 using YamlDotNet.Serialization;
 using ConfigurationManager = Microsoft.Extensions.Configuration.ConfigurationManager;
 
@@ -81,8 +81,12 @@ public static class ContainerStartup
                 .AddSingleton<IBinanceHistoricalClient, BinanceHistoricalClient>();
 
         services.AddSingleton<IKlineClient, KlineClient>()
-                .AddSingleton<IKlineObservable, KlineObservable>()
-                .AddScoped<IKlineService, KlineService>();
+                .AddSingleton<IKlineObservable, KlineObservable>();
+
+        // Services initialization
+        services.AddScoped<IKlineService, KlineService>()
+                .AddScoped<IUserService, UserService>()
+                .AddScoped<IAuthService, AuthService>();
     }
 
     public static void RegisterRepositories(ConfigurationManager configuration, IServiceCollection services)
@@ -93,7 +97,8 @@ public static class ContainerStartup
             options.UseMySql(mySqlConfig.ConnectionString, ServerVersion.AutoDetect(mySqlConfig.ConnectionString));
         });
 
-        services.AddTransient<IKlineRepository, KlineRepository>();
+        services.AddScoped<IKlineRepository, KlineRepository>()
+                .AddScoped<IUserRepository, UserRepository>();
     }
 
     public static void RegisterJobs(ConfigurationManager configuration, IServiceCollection services)

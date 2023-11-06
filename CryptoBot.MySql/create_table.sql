@@ -1,5 +1,5 @@
-drop table if exists Kline;
-create table if not exists Kline (
+drop table if exists Klines;
+create table if not exists Klines (
     Id SERIAL primary key,
     OpenTime bigint not null,
     CloseTime bigint not null,
@@ -21,4 +21,14 @@ create table if not exists Kline (
     index (Symbol),
     index (`Interval`),
     index (OpenTime, CloseTime, Symbol, `Interval`)
+);
+
+drop table if EXISTS Users;
+create TABLE IF NOT EXISTS Users (
+    Id SERIAL primary key,
+    UserName varchar(256) not null,
+    `PasswordHash` varchar(256) not null,
+    `Role` LONGTEXT,
+    index (UserName),
+    unique (UserName)
 );

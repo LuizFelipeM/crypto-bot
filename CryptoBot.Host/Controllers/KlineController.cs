@@ -1,10 +1,12 @@
 using CryptoBot.Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CryptoBot.Host.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[Authorize]
 public class KlineController : ControllerBase
 {
     private readonly ILogger<KlineController> _logger;
