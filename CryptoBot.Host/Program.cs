@@ -7,6 +7,11 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.ListenAnyIP(int.Parse(Environment.GetEnvironmentVariable("PORT")));
+});
+
 // Add services to the container.
 builder.Services
     .AddCors()
