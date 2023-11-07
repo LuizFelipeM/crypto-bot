@@ -9,7 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.WebHost.ConfigureKestrel(serverOptions =>
 {
-    serverOptions.ListenAnyIP(int.Parse(Environment.GetEnvironmentVariable("PORT")));
+    var port = Environment.GetEnvironmentVariable("PORT");
+    Console.WriteLine(port);
+    serverOptions.ListenAnyIP(int.Parse(port));
 });
 
 // Add services to the container.
