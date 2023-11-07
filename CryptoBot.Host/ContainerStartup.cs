@@ -107,7 +107,7 @@ public static class ContainerStartup
         {
             q.UseMicrosoftDependencyInjectionJobFactory();
             var types = GetTypesInAssembly<IJob, KlineJob>();
-            var jobsConfig = ReadYamlFile<Dictionary<string, JobConfig>>("./Configs/Jobs/jobs.Development.yaml");
+            var jobsConfig = configuration.GetSection("Jobs").Get<Dictionary<string, JobConfig>>(); // ReadYamlFile<Dictionary<string, JobConfig>>("./Configs/Jobs/jobs.Development.yaml");
             types
                 .Where(t => !t.IsAbstract)
                 .ToList()
@@ -134,7 +134,7 @@ public static class ContainerStartup
     {
         var lavinMQHostConfig = configuration.GetSection("LavinMQ").Get<LavinMQHostConfig>() ?? throw new Exception("LavinMQ configuration not found");
         services.AddSingleton(lavinMQHostConfig);
-        LavinMQStartup(lavinMQHostConfig);
+        LavinMQStartup(configuration, lavinMQHostConfig);
 
         var ingestorProducerConfig = configuration.GetSection("LavinMQ:Producers:Ingestor").Get<IngestorProducerConfig>();
         services.AddSingleton(ingestorProducerConfig);
@@ -146,9 +146,9 @@ public static class ContainerStartup
         services.AddScoped<ILavinMQReceiveConsumer<IEnumerable<KlineContract>>, KlineReceiveConsumer>();
     }
 
-    private static void LavinMQStartup(LavinMQHostConfig hostConfig)
+    private static void LavinMQStartup(ConfigurationManager configuration, LavinMQHostConfig hostConfig)
     {
-        var infrastructureConfigs = ReadYamlFile<LavinMQInfrastructureConfigs>("./Configs/LavinMQ/infrastructure.Development.yaml");
+        var infrastructureConfigs = configuration.GetSection("LavinMQInfra").Get<LavinMQInfrastructureConfigs>(); // ReadYamlFile<LavinMQInfrastructureConfigs>("./Configs/LavinMQ/infrastructure.Development.yaml");
         var startup = new LavinMQStartup(hostConfig);
 
         foreach (var (name, config) in infrastructureConfigs.Exchanges)
