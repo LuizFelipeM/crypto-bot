@@ -51,7 +51,7 @@ public class KlineObservable : IKlineObservable
     }
 
     private static KlineSymbolsAttribute GetSymbolsAttribute(IObserver<KlineEvent> observer) =>
-        observer.Get<KlineSymbolsAttribute>()
+        observer.GetCustomAttributes<KlineSymbolsAttribute>().FirstOrDefault()
         ?? throw new Exception($"Symbols not found on subscription, try using the SymbolsAttirbute");
 
     private IDisposable Subscribe(Interval interval, IObserver<KlineEvent> observer, KlineSymbolsAttribute symbols)
@@ -79,14 +79,13 @@ public class KlineObservable : IKlineObservable
         return Subscribe(interval, observer, symbols);
     }
 
-    public async Task<IEnumerable<IDisposable>> Subscribe(Interval interval, params IObserver<KlineEvent>[] observers)
-    {
-        if (!observers.Any()) throw new Exception("You must provide observers for the subscription");
-        return await Subscribe(interval, observers.ToList());
-    }
+    public async Task<IEnumerable<IDisposable>> Subscribe(Interval interval, params IObserver<KlineEvent>[] observers) =>
+        await Subscribe(interval, observers.ToList());
 
     public async Task<IEnumerable<IDisposable>> Subscribe(Interval interval, IEnumerable<IObserver<KlineEvent>> observers)
     {
+        if (!observers.Any()) throw new Exception("You must provide observers for the subscription");
+
         var observersSymbols = observers.Select(o => new
         {
             Observer = o,

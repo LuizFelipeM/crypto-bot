@@ -5,8 +5,8 @@ namespace CryptoBot.CrossCutting.Utils;
 
 public static class AttributeUtils
 {
-    public static T? Get<T>(this object obj) where T : Attribute =>
-        (T)(Attribute.GetCustomAttributes(obj.GetType()).FirstOrDefault(a => a is T) ?? default);
+    public static IEnumerable<T?> GetCustomAttributes<T>(this object obj) where T : Attribute =>
+        Attribute.GetCustomAttributes(obj.GetType()).Where(a => a is T).Select(a => (T)a ?? default);
 
     public static string GetDescription<T>(this T value) where T : Enum
     {

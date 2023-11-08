@@ -3,7 +3,8 @@ using CryptoBot.CrossCutting.Utils;
 
 namespace CryptoBot.Application.Binance.Contract;
 
-[AttributeUsage(AttributeTargets.Class)]
+[AttributeUsage(AttributeTargets.Class,
+                AllowMultiple = true)]
 public class KlineSymbolsAttribute : Attribute
 {
     public Symbol BaseSymbol { get; private set; }

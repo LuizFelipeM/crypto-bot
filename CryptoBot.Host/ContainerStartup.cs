@@ -31,6 +31,9 @@ namespace CryptoBot.Host;
 
 public static class ContainerStartup
 {
+    private static string GetEnvironment() => Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+    public static bool IsDevelopment() => GetEnvironment() == "Development";
+
     private static IEnumerable<Type> GetTypesWithCustomAttributes<TAttribute, TConcrete>()
         where TConcrete : class
         where TAttribute : Attribute
@@ -103,11 +106,13 @@ public static class ContainerStartup
 
     public static void RegisterJobs(ConfigurationManager configuration, IServiceCollection services)
     {
+        Console.WriteLine($"Running environment {GetEnvironment()}");
+
         services.AddQuartz(q =>
         {
             q.UseMicrosoftDependencyInjectionJobFactory();
             var types = GetTypesInAssembly<IJob, KlineJob>();
-            var jobsConfig = configuration.GetSection("Jobs").Get<Dictionary<string, JobConfig>>(); // ReadYamlFile<Dictionary<string, JobConfig>>("./Configs/Jobs/jobs.Development.yaml");
+            var jobsConfig = ReadYamlFile<Dictionary<string, JobConfig>>($"./Configs/Jobs/jobs.{GetEnvironment()}.yaml");
             types
                 .Where(t => !t.IsAbstract)
                 .ToList()
@@ -148,7 +153,7 @@ public static class ContainerStartup
 
     private static void LavinMQStartup(ConfigurationManager configuration, LavinMQHostConfig hostConfig)
     {
-        var infrastructureConfigs = configuration.GetSection("LavinMQInfra").Get<LavinMQInfrastructureConfigs>(); // ReadYamlFile<LavinMQInfrastructureConfigs>("./Configs/LavinMQ/infrastructure.Development.yaml");
+        var infrastructureConfigs = ReadYamlFile<LavinMQInfrastructureConfigs>($"./Configs/LavinMQ/infrastructure.{GetEnvironment()}.yaml");
         var startup = new LavinMQStartup(hostConfig);
 
         foreach (var (name, config) in infrastructureConfigs.Exchanges)
