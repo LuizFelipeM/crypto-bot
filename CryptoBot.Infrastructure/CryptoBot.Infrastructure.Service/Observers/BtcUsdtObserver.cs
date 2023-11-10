@@ -33,7 +33,6 @@ public class BtcUsdtObserver : IObserver<KlineEvent>
             var repository = scope.ServiceProvider.GetRequiredService<IKlineRepository>();
             var entity = TinyMapper.Map<KlineEntity>(kline);
             repository.Upsert(entity);
-            _logger.LogInformation($"Entity {entity.Id} CreatedAt - {entity.CreatedAt}");
         }
         catch (Exception ex)
         {
