@@ -1,29 +1,17 @@
-﻿using CryptoBot.CrossCutting;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CryptoBot.Domain.Models.Entities;
 
 public class KlineEntity
 {
+    public KlineEntity() => CreatedAt = DateTime.UtcNow;
+
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public long Id { get; set; }
-
-    private long _openTime;
-    public required DateTime OpenTime
-    {
-        get => _openTime.FromUnixTimeMilliseconds();
-        set => _openTime = value.ToUnixMilliseconds();
-    }
-
-    private long _closeTime;
-    public required DateTime CloseTime
-    {
-        get => _closeTime.FromUnixTimeMilliseconds();
-        set => _closeTime = value.ToUnixMilliseconds();
-    }
-
+    public required DateTime OpenTime { get; set; }
+    public required DateTime CloseTime { get; set; }
     public required string Symbol { get; set; }
     public required string Interval { get; set; }
     public required double OpenPrice { get; set; }
@@ -36,4 +24,5 @@ public class KlineEntity
     public required double QuoteAssetVolume { get; set; }
     public required double TakerBuyBaseAssetVolume { get; set; }
     public required double TakerBuyQuoteAssetVolume { get; set; }
+    public required DateTime CreatedAt { get; set; }
 }

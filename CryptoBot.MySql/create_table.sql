@@ -15,6 +15,7 @@ create table if not exists Klines (
     QuoteAssetVolume numeric not null,
     TakerBuyBaseAssetVolume numeric not null,
     TakerBuyQuoteAssetVolume numeric not null,
+    CreatedAt timestamp(3) not null default now(3),
     index (OpenTime),
     index (CloseTime),
     index (OpenTime, CloseTime),

@@ -47,35 +47,30 @@ public class Kline
     /// Open price
     /// </summary>    
     [JsonProperty("o")]
-    // required Need a string to double conversion
     public double OpenPrice { get; set; }
 
     /// <summary>
     /// Close price
     /// </summary>    
     [JsonProperty("c")]
-    // required Need a string to double conversion
     public double ClosePrice { get; set; }
 
     /// <summary>
     /// High price
     /// </summary>    
     [JsonProperty("h")]
-    // required Need a string to double conversion
     public double HighPrice { get; set; }
 
     /// <summary>
     /// Low price
     /// </summary>    
     [JsonProperty("l")]
-    // required Need a string to double conversion
     public double LowPrice { get; set; }
 
     /// <summary>
     /// Base asset volume
     /// </summary>    
     [JsonProperty("v")]
-    // required Need a string to double conversion
     public double BaseAssetVolume { get; set; }
 
     /// <summary>
@@ -94,24 +89,17 @@ public class Kline
     /// Quote asset volume
     /// </summary>    
     [JsonProperty("q")]
-    // required Need a string to double conversion
     public double QuoteAssetVolume { get; set; }
 
     /// <summary>
     /// Taker buy base asset volume
     /// </summary>    
     [JsonProperty("V")]
-    // required Need a string to double conversion
     public double TakerBuyBaseAssetVolume { get; set; }
 
     /// <summary>
     /// Taker buy quote asset volume
     /// </summary>    
     [JsonProperty("Q")]
-    // required Need a string to double conversion
     public double TakerBuyQuoteAssetVolume { get; set; }
-
-    /// Ignore
-    // [JsonProperty("B")]
-    // public required string Ignore { get; set; }
 }
