@@ -17,7 +17,8 @@ public class LavinMQStartup : LavinMQClient
 
     private void CreateQueue(LavinMQQueueConfig config)
     {
-        _channel?.QueueDelete(config.Name, !config.ForceDelete, !config.ForceDelete);
+        if (config.RecereateOnStartup)
+            _channel?.QueueDelete(config.Name, !config.ForceDelete, !config.ForceDelete);
 
         var arguments = new Dictionary<string, object>();
         if (config.Features != null)
@@ -64,7 +65,8 @@ public class LavinMQStartup : LavinMQClient
         try
         {
             await InitializeChannel();
-            _channel?.ExchangeDelete(config.Name, !config.ForceDelete);
+            if (config.RecereateOnStartup)
+                _channel?.ExchangeDelete(config.Name, !config.ForceDelete);
             _channel?.ExchangeDeclare(exchange: config.Name,
                                       type: config.Type,
                                       durable: config.Durable,

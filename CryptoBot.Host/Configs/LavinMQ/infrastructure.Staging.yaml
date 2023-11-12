@@ -1,10 +1,12 @@
 Exchanges:
   Ingestor:
+    RecereateOnStartup: true
     ForceDelete: true
     Type: "direct"
 
 Queues:
   Kline:
+    RecereateOnStartup: true
     ForceDelete: true
     Features:
       DeadLetterExchange: "Ingestor"
@@ -14,6 +16,7 @@ Queues:
         RoutingKey: "kline"
 
   Kline.dlq:
+    RecereateOnStartup: true
     ForceDelete: true
     Bindings:
       - ExchangeName: "Ingestor"
