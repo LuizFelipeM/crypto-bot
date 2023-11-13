@@ -2,8 +2,9 @@
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using CryptoBot.Domain;
-using System.Data;
 using Isopoh.Cryptography.Argon2;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 
 namespace CryptoBot.Infrastructure.Service.Auth;
 
@@ -11,13 +12,16 @@ public class AuthService : IAuthService
 {
     private readonly JwtConfig _jwtConfig;
     private readonly IUserRepository _userRepository;
+    private readonly IWebHostEnvironment _environment;
 
     public AuthService(
         JwtConfig jwtConfig,
-        IUserRepository userRepository)
+        IUserRepository userRepository,
+        IWebHostEnvironment environment)
     {
         _jwtConfig = jwtConfig;
         _userRepository = userRepository;
+        _environment = environment;
     }
 
     private string GenerateToken(UserEntity user)
@@ -28,7 +32,7 @@ public class AuthService : IAuthService
         var key = new SymmetricSecurityKey(_jwtConfig.SecretBytes);
         var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
         var token = new JwtSecurityToken(claims: claims,
-                                         expires: DateTime.UtcNow.AddDays(1),
+                                         expires: _environment.IsDevelopment() ? null : DateTime.UtcNow.AddDays(1),
                                          signingCredentials: cred);
         return new JwtSecurityTokenHandler().WriteToken(token);
     }

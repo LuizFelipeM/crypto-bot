@@ -7,6 +7,7 @@ namespace CryptoBot.Host;
 
 [ApiController]
 [Route("[controller]")]
+[Authorize]
 public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;

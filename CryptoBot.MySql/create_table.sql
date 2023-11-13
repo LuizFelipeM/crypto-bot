@@ -1,8 +1,10 @@
+create database if not exists `crypto-bot`;
+
 drop table if exists Klines;
 create table if not exists Klines (
     Id SERIAL primary key,
-    OpenTime bigint not null,
-    CloseTime bigint not null,
+    OpenTime timestamp(3) not null,
+    CloseTime timestamp(3) not null,
     Symbol varchar(10) not null,
     `Interval` varchar(2) not null,
     OpenPrice numeric not null,
