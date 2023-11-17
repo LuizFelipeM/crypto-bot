@@ -1,10 +1,6 @@
 name: .NET CD
 
 on:
-  workflow_dispatch:
-    inputs:
-      description: Git Ref (Optional)
-      required: false
   push:
     branches: [master]
   pull_request:
