@@ -23,15 +23,15 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Install dependencies
-        run: dotnet restore -r linux-x64
+        run: dotnet restore
 
       - name: Build
-        run: dotnet build --configuration Release --no-restore -r linux-x64
+        run: dotnet build --configuration Release --no-restore
 
       - name: Publish
-        run: dotnet publish --no-build --no-restore -c Release -r linux-x64 /p:PublishSingleFile=true
+        run: dotnet publish --no-build --no-restore -c Release /p:PublishSingleFile=true
 
-      - name: executing remote ssh commands using password
+      - name: Supervisor stop joy
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.DROPLET_HOST }}
@@ -48,7 +48,7 @@ jobs:
           source: "bin/Release/net7.0/linux-x64/publish"
           target: "${{ secrets.DROPLET_TARGET_DIR }}"
 
-      - name: executing remote ssh commands using password
+      - name: Supervisor start joy
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.DROPLET_HOST }}
