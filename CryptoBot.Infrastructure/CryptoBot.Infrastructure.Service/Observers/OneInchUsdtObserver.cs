@@ -29,6 +29,8 @@ public class OneInchUsdtObserver : IObserver<KlineEvent>
     {
         try
         {
+            if (!kline.IsKlineClosed) return;
+
             var scope = _serviceScopeFactory.CreateScope();
             var repository = scope.ServiceProvider.GetRequiredService<IKlineRepository>();
             repository.Upsert(TinyMapper.Map<KlineEntity>(kline));

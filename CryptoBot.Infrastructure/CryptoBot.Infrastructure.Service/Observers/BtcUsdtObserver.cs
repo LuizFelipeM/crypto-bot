@@ -29,10 +29,11 @@ public class BtcUsdtObserver : IObserver<KlineEvent>
     {
         try
         {
+            if (!kline.IsKlineClosed) return;
+
             var scope = _serviceScopeFactory.CreateScope();
             var repository = scope.ServiceProvider.GetRequiredService<IKlineRepository>();
-            var entity = TinyMapper.Map<KlineEntity>(kline);
-            repository.Upsert(entity);
+            repository.Upsert(TinyMapper.Map<KlineEntity>(kline));
         }
         catch (Exception ex)
         {
